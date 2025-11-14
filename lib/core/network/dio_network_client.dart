@@ -1,43 +1,41 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:movieapp/core/config/environment.dart';
 import 'package:movieapp/core/network/network_client.dart';
+import 'package:movieapp/core/network/network_inteceptor_manager.dart';
+import 'network_logger.dart';
+import 'network_error_handler.dart';
+import 'network_response_factory.dart';
 
 class DioNetworkClient implements NetworkClient {
   final Dio _dio;
   final Environment config;
+  final NetworkLogger logger;
+  final NetworkErrorHandler _errorHandler;
+  final NetworkResponseFactory _responseFactory;
+  final NetworkInterceptorManager _interceptorManager;
 
-  DioNetworkClient(this.config)
-      : _dio = Dio(
-          BaseOptions(
-            baseUrl: config.baseUrl,
-            connectTimeout: const Duration(seconds: 10),
-            receiveTimeout: const Duration(seconds: 15),
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              'Authorization': 'Bearer ${config.apiKey}',
-            },
-          ),
-        ) {
-    _setupInterceptors();
-  }
-
-  void _setupInterceptors() {
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          return handler.next(options);
-        },
-        onResponse: (response, handler) {
-          return handler.next(response);
-        },
-        onError: (DioException error, handler) {
-          return handler.next(error);
-        },
-      ),
-    );
+  DioNetworkClient({
+    required this.config,
+    required this.logger,
+    required NetworkErrorHandler errorHandler,
+    required NetworkResponseFactory responseFactory,
+    required NetworkInterceptorManager interceptorManager,
+  }) : _errorHandler = errorHandler,
+       _responseFactory = responseFactory,
+       _interceptorManager = interceptorManager,
+       _dio = Dio(
+         BaseOptions(
+           queryParameters: {"api_key": config.apiKey},
+           baseUrl: config.baseUrl,
+           connectTimeout: const Duration(seconds: 30),
+           receiveTimeout: const Duration(seconds: 30),
+           headers: {
+             'Content-Type': 'application/json',
+             'Accept': 'application/json',
+           },
+         ),
+       ) {
+    _interceptorManager.setupInterceptors(_dio);
   }
 
   @override
@@ -52,13 +50,9 @@ class DioNetworkClient implements NetworkClient {
         queryParameters: queryParameters,
         options: Options(headers: headers),
       );
-      return NetworkResponse(
-        statusCode: response.statusCode!,
-        body: response.data is String ? response.data : json.encode(response.data),
-        headers: response.headers.map.map((key, list) => MapEntry(key, list.first)),
-      );
+      return _responseFactory.createFromDioResponse(response);
     } on DioException catch (e) {
-      throw _handleDioError(e);
+      throw _errorHandler.handleDioError(e);
     }
   }
 
@@ -74,13 +68,9 @@ class DioNetworkClient implements NetworkClient {
         data: body,
         options: Options(headers: headers),
       );
-      return NetworkResponse(
-        statusCode: response.statusCode!,
-        body: response.data is String ? response.data : json.encode(response.data),
-        headers: response.headers.map.map((key, list) => MapEntry(key, list.first)),
-      );
+      return _responseFactory.createFromDioResponse(response);
     } on DioException catch (e) {
-      throw _handleDioError(e);
+      throw _errorHandler.handleDioError(e);
     }
   }
 
@@ -96,13 +86,9 @@ class DioNetworkClient implements NetworkClient {
         data: body,
         options: Options(headers: headers),
       );
-      return NetworkResponse(
-        statusCode: response.statusCode!,
-        body: response.data is String ? response.data : json.encode(response.data),
-        headers: response.headers.map.map((key, list) => MapEntry(key, list.first)),
-      );
+      return _responseFactory.createFromDioResponse(response);
     } on DioException catch (e) {
-      throw _handleDioError(e);
+      throw _errorHandler.handleDioError(e);
     }
   }
 
@@ -116,13 +102,9 @@ class DioNetworkClient implements NetworkClient {
         url,
         options: Options(headers: headers),
       );
-      return NetworkResponse(
-        statusCode: response.statusCode!,
-        body: response.data is String ? response.data : json.encode(response.data),
-        headers: response.headers.map.map((key, list) => MapEntry(key, list.first)),
-      );
+      return _responseFactory.createFromDioResponse(response);
     } on DioException catch (e) {
-      throw _handleDioError(e);
+      throw _errorHandler.handleDioError(e);
     }
   }
 
@@ -140,32 +122,5 @@ class DioNetworkClient implements NetworkClient {
   void setTimeout(Duration timeout) {
     _dio.options.connectTimeout = timeout;
     _dio.options.receiveTimeout = timeout;
-  }
-
-  NetworkException _handleDioError(DioException error) {
-    switch (error.type) {
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.receiveTimeout:
-        return TimeoutNetworkException('Request timeout', url: error.requestOptions.path);
-      case DioExceptionType.badResponse:
-        final statusCode = error.response?.statusCode;
-        if (statusCode == 401) {
-          return UnauthorizedNetworkException(url: error.requestOptions.path);
-        }
-        return NetworkException(
-          'HTTP $statusCode: ${error.response?.statusMessage}',
-          statusCode: statusCode,
-          url: error.requestOptions.path,
-        );
-      case DioExceptionType.cancel:
-        return NetworkException('Request cancelled', url: error.requestOptions.path);
-      case DioExceptionType.unknown:
-        return NetworkException('Unknown error: ${error.message}', url: error.requestOptions.path);
-      case DioExceptionType.badCertificate:
-        return NetworkException('Bad certificate', url: error.requestOptions.path);
-      case DioExceptionType.connectionError:
-        return NetworkException('Connection error', url: error.requestOptions.path);
-    }
   }
 }

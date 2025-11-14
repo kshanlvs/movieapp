@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieapp/core/constants/route_constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,16 +22,12 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(seconds: 2),
     )..forward();
 
-    _fadeAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    );
+    _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
     Future.delayed(const Duration(seconds: 3), () {
-      if(mounted)  {
-          context.go('/home');
+      if (mounted) {
+        context.go(RouteConstants.home);
       }
-    
     });
   }
 
@@ -43,7 +40,6 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: FadeTransition(
         opacity: _fadeAnimation,
         child: Center(

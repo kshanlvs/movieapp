@@ -1,6 +1,6 @@
 enum EnvironmentType {
   development('dev', 'Development'),
-  staging('staging', 'Staging'), 
+  staging('staging', 'Staging'),
   production('prod', 'Production');
 
   const EnvironmentType(this.value, this.title);

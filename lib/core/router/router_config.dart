@@ -7,9 +7,9 @@ final GoRouter routerConfig = GoRouter(
     GoRoute(
       path: '/',
       name: 'splash',
-      builder: (context, state) => const SplashScreen(),  
+      builder: (context, state) => const SplashScreen(),
     ),
-      GoRoute(
+    GoRoute(
       path: '/home',
       name: 'homepage',
       builder: (context, state) => const MovieHomePage(),

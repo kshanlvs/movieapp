@@ -1,5 +1,3 @@
-
-
 class SizeConstants {
   static const double spaceZero = 0;
   static const double spaceXXS = 2;
@@ -11,7 +9,7 @@ class SizeConstants {
   static const double spaceXXL = 24;
   static const double spaceXXXL = 32;
   static const double spaceXXXXL = 48;
-  
+
   static const double paddingXS = 4;
   static const double paddingS = 8;
   static const double paddingM = 12;
@@ -19,27 +17,27 @@ class SizeConstants {
   static const double paddingXL = 20;
   static const double paddingXXL = 24;
   static const double pagePadding = 16;
-  
+
   static const double marginXS = 4;
   static const double marginS = 8;
   static const double marginM = 12;
   static const double marginL = 16;
   static const double marginXL = 20;
   static const double marginXXL = 24;
-    static const double radiusXS = 4;
+  static const double radiusXS = 4;
   static const double radiusS = 8;
   static const double radiusM = 12;
   static const double radiusL = 16;
   static const double radiusXL = 20;
   static const double radiusXXL = 24;
   static const double radiusCircle = 50;
-  
+
   // Border Width
   static const double borderWidthXS = 0.5;
   static const double borderWidthS = 1;
   static const double borderWidthM = 1.5;
   static const double borderWidthL = 2;
-  
+
   // Icon Sizes
   static const double iconSizeXS = 12;
   static const double iconSizeS = 16;
@@ -48,22 +46,22 @@ class SizeConstants {
   static const double iconSizeXL = 28;
   static const double iconSizeXXL = 32;
   static const double iconSizeXXXL = 48;
-  
+
   // Button Sizes
   static const double buttonHeightXS = 32;
   static const double buttonHeightS = 40;
   static const double buttonHeightM = 48;
   static const double buttonHeightL = 56;
   static const double buttonHeightXL = 64;
-  
+
   // App Bar
   static const double appBarHeight = 56;
   static const double appBarElevation = 0;
-  
+
   // Bottom Navigation Bar
   static const double bottomNavBarHeight = 64;
   static const double bottomNavBarElevation = 8;
-  
+
   // Divider
   static const double dividerHeight = 1;
   static const double dividerThickness = 0.5;

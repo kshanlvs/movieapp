@@ -6,18 +6,20 @@ import 'environment.dart';
 
 class EnvironmentDetector {
   static Environment detectEnvironment() {
-
     final dartDefineEnv = _getFromDartDefines();
     if (dartDefineEnv != null) {
       if (kDebugMode) {
-        print('Environment detected from Dart defines: ${dartDefineEnv.type.title}');
+        print(
+          'Environment detected from Dart defines: ${dartDefineEnv.type.title}',
+        );
       }
       return dartDefineEnv;
     }
 
-
     if (kDebugMode) {
-      print('No environment specified via --dart-define, defaulting to Development');
+      print(
+        'No environment specified via --dart-define, defaulting to Development',
+      );
     }
     return EnvironmentFactory.createEnvironment(EnvironmentType.development);
   }
@@ -40,7 +42,7 @@ class EnvironmentDetector {
     final env = AppEnvironment.current;
     if (kDebugMode) {
       print('''
-🎬 Movie App Environment Info:
+  Movie App Environment Info:
   App: ${env.appName}
   Environment: ${env.type.title}
   Version: ${env.version}

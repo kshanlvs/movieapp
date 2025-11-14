@@ -1,40 +1,37 @@
-
 import 'dart:convert';
-abstract class NetworkClient {
 
+abstract class ReadNetworkClient {
   Future<NetworkResponse> get(
     String url, {
     Map<String, String>? headers,
     Map<String, dynamic>? queryParameters,
   });
+}
 
+abstract class WriteNetworkClient {
   Future<NetworkResponse> post(
     String url, {
     Map<String, String>? headers,
     Object? body,
   });
+
   Future<NetworkResponse> put(
     String url, {
     Map<String, String>? headers,
     Object? body,
   });
 
-  Future<NetworkResponse> delete(
-    String url, {
-    Map<String, String>? headers,
-  });
+  Future<NetworkResponse> delete(String url, {Map<String, String>? headers});
+}
 
-
+abstract class NetworkConfigClient {
   void setBaseHeaders(Map<String, String> headers);
-
   void setBaseUrl(String baseUrl);
   void setTimeout(Duration timeout);
 }
 
-
-
-
-
+abstract class NetworkClient
+    implements ReadNetworkClient, WriteNetworkClient, NetworkConfigClient {}
 
 class NetworkResponse {
   final int statusCode;
@@ -48,7 +45,6 @@ class NetworkResponse {
     required this.headers,
   }) : isSuccess = statusCode >= 200 && statusCode < 300;
 
-  /// Converts body to JSON
   Map<String, dynamic> get json => _decodeJson(body, statusCode);
 
   static Map<String, dynamic> _decodeJson(String jsonString, int statusCode) {
@@ -84,7 +80,5 @@ class TimeoutNetworkException extends NetworkException {
 
 class UnauthorizedNetworkException extends NetworkException {
   UnauthorizedNetworkException({String? url})
-      : super('Unauthorized access', statusCode: 401, url: url);
+    : super('Unauthorized access', statusCode: 401, url: url);
 }
-
-

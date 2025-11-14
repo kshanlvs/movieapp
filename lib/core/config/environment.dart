@@ -11,11 +11,11 @@ abstract class Environment {
 
 class AppEnvironment {
   static late Environment _environment;
-  
+
   static Environment get current => _environment;
-  
+
   static EnvironmentType get currentType => _environment.type;
-  
+
   static void setEnvironment(Environment env) {
     _environment = env;
   }

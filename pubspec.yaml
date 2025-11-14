@@ -40,6 +40,13 @@ dependencies:
   get_it: ^9.0.5
   flutter_dotenv: ^6.0.0
 
+  build_runner: ^2.4.7
+  hive_flutter: ^1.1.0
+  hive_generator: ^2.0.1
+  path_provider: ^2.1.5
+  cached_network_image: ^3.4.1
+  flutter_cache_manager: ^3.4.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
