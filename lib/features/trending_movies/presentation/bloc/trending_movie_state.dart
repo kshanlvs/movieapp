@@ -1,18 +1,22 @@
 import 'package:movieapp/features/movies/data/model/movie_model.dart';
 
-class MovieState {
+class TrendingMoviesState {
   final List<MovieModel> movies;
   final bool isLoading;
   final String error;
 
-  MovieState({this.movies = const [], this.isLoading = false, this.error = ''});
+  const TrendingMoviesState({
+    this.movies = const [],
+    this.isLoading = false,
+    this.error = '',
+  });
 
-  MovieState copyWith({
+  TrendingMoviesState copyWith({
     List<MovieModel>? movies,
     bool? isLoading,
     String? error,
   }) {
-    return MovieState(
+    return TrendingMoviesState(
       movies: movies ?? this.movies,
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
