@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieapp/features/movies/data/repository/now_playing_repository.dart';
+import 'package:movieapp/features/now_playing_movies/data/repository/now_playing_repository.dart';
 import 'package:movieapp/features/now_playing_movies/presentation/bloc/now_playing_movie_event.dart';
 import 'package:movieapp/features/now_playing_movies/presentation/bloc/now_playing_state.dart';
 

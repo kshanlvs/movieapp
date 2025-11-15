@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movieapp/features/movies/data/repository/trending_movie_repository.dart';
+import 'package:movieapp/features/trending_movies/data/repository/trending_movie_repository.dart';
 import 'package:movieapp/features/trending_movies/presentation/bloc/trending_movie_event.dart';
 import 'package:movieapp/features/trending_movies/presentation/bloc/trending_movie_state.dart';
 

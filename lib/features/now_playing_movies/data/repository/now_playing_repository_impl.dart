@@ -3,7 +3,7 @@ import 'package:movieapp/core/database/movie_types.dart';
 import 'package:movieapp/core/network/network_client.dart';
 import 'package:movieapp/features/movies/data/model/movie_model.dart';
 import 'package:movieapp/features/movies/data/repository/movies_cache_repository.dart';
-import 'package:movieapp/features/movies/data/repository/now_playing_repository.dart';
+import 'package:movieapp/features/now_playing_movies/data/repository/now_playing_repository.dart';
 
 class NowPlayingImpl implements NowPlayingRepository {
   final NetworkClient client;

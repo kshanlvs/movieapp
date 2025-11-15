@@ -52,7 +52,7 @@ class HeroSection extends StatelessWidget {
             ),
           ),
           
-          // Content
+   
           Container(
             height: 500,
             padding: const EdgeInsets.all(16),

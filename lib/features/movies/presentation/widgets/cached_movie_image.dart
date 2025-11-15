@@ -90,7 +90,7 @@ class CachedMovieImage extends StatelessWidget {
   }
 }
 
-// Variant for poster images with rounded corners
+
 class CachedMoviePoster extends StatelessWidget {
   final String imageUrl;
   final double width;
@@ -117,7 +117,6 @@ class CachedMoviePoster extends StatelessWidget {
   }
 }
 
-// Variant for backdrop/hero images
 class CachedMovieBackdrop extends StatelessWidget {
   final String imageUrl;
   final double? width;

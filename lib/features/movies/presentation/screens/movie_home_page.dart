@@ -107,6 +107,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
       BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
         builder: (context, state) {
           return MovieListSection(
+            
             movies: state.movies,
             isLoading: state.isLoading,
             error: state.error,

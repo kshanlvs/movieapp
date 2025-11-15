@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movieapp/features/movies/data/model/movie_model.dart';
 import 'movie_card.dart';
 
@@ -110,7 +111,9 @@ class MovieListSection extends StatelessWidget {
           itemCount: movies.length,
           itemBuilder: (context, index) {
             final movie = movies[index];
-            return MovieCard(movie: movie);
+            return MovieCard(movie: movie ,onTap: () {
+                  context.push('/movie/${movie.id}');
+            },);
           },
         ),
       ),
