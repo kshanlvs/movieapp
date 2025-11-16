@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/size_constants.dart';
+import 'package:movieapp/core/constants/string_constants.dart';
 import 'package:movieapp/features/movies/data/model/movie_model.dart';
 import 'movie_card.dart';
 
 class MovieListSection extends StatelessWidget {
-
   final List<MovieModel> movies;
   final bool isLoading;
   final String error;
@@ -44,23 +46,24 @@ class MovieListSection extends StatelessWidget {
   Widget _buildErrorState() {
     return SliverToBoxAdapter(
       child: Container(
-        height: 200,
-        padding: const EdgeInsets.all(16),
+        height: SizeConstants.movieListErrorHeight,
+        padding: const EdgeInsets.all(SizeConstants.pagePadding),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Failed to load movies',
-                style: const TextStyle(color: Colors.white),
+                AppTexts.errorLoadingMovies,
+                style: const TextStyle(color: AppColors.textPrimary),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: SizeConstants.spaceS),
               ElevatedButton(
                 onPressed: onRetry,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.textPrimary,
                 ),
-                child: const Text('Retry'),
+                child: const Text(AppTexts.retry),
               ),
             ],
           ),
@@ -72,11 +75,13 @@ class MovieListSection extends StatelessWidget {
   Widget _buildLoadingState() {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 180,
+        height: SizeConstants.movieListSectionHeight,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(
+            horizontal: SizeConstants.pagePadding,
+          ),
           itemCount: 10,
           itemBuilder: (context, index) {
             return const MovieCardShimmer();
@@ -89,11 +94,11 @@ class MovieListSection extends StatelessWidget {
   Widget _buildEmptyState() {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 200,
-        child: const Center(
+        height: SizeConstants.movieListEmptyHeight,
+        child: Center(
           child: Text(
-            'No movies available',
-            style: TextStyle(color: Colors.white70),
+            AppTexts.noMoviesAvailable,
+            style: const TextStyle(color: AppColors.textSecondary),
           ),
         ),
       ),
@@ -103,17 +108,22 @@ class MovieListSection extends StatelessWidget {
   Widget _buildMovieGrid() {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 180,
+        height: SizeConstants.movieListContentHeight,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(
+            horizontal: SizeConstants.pagePadding,
+          ),
           itemCount: movies.length,
           itemBuilder: (context, index) {
             final movie = movies[index];
-            return MovieCard(movie: movie ,onTap: () {
-                  context.push('/movie/${movie.id}');
-            },);
+            return MovieCard(
+              movie: movie,
+              onTap: () {
+                context.push('/movie/${movie.id}');
+              },
+            );
           },
         ),
       ),

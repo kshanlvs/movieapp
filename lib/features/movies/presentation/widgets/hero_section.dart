@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/size_constants.dart';
+import 'package:movieapp/core/constants/string_constants.dart';
 import 'package:movieapp/features/movies/presentation/widgets/cached_movie_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:movieapp/features/movies/data/model/movie_model.dart';
@@ -7,11 +10,7 @@ class HeroSection extends StatelessWidget {
   final MovieModel? movie;
   final bool isLoading;
 
-  const HeroSection({
-    super.key,
-    this.movie,
-    this.isLoading = false,
-  });
+  const HeroSection({super.key, this.movie, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +25,12 @@ class HeroSection extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Stack(
         children: [
-       
-
-             SizedBox(
+          SizedBox(
             height: 500,
             width: double.infinity,
-            child: CachedMovieBackdrop( imageUrl: movie?.posterUrl ??'',
-                 )
+            child: CachedMovieBackdrop(imageUrl: movie?.posterUrl ?? ''),
           ),
-          
-          
+
           Container(
             height: 500,
             width: double.infinity,
@@ -45,42 +40,42 @@ class HeroSection extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent,
-                  Colors.black.withOpacity(0.7),
-                  Colors.black,
+                  AppColors.background.withOpacity(0.7),
+                  AppColors.background,
                 ],
               ),
             ),
           ),
-          
-   
+
           Container(
             height: 500,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(SizeConstants.pagePadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  movie!.title ?? 'Unknown Title',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
                 Row(
                   children: [
-                    _buildActionButton('Play', Icons.play_arrow, Colors.white, Colors.black),
-                    const SizedBox(width: 16),
-                    _buildActionButton('My List', Icons.add, Colors.grey, Colors.white),
+                    _buildActionButton(
+                      AppTexts.play,
+                      Icons.play_arrow,
+                      AppColors.textPrimary,
+                      AppColors.background,
+                    ),
+                    const SizedBox(width: SizeConstants.spaceL),
+                    _buildActionButton(
+                      AppTexts.myList,
+                      Icons.add,
+                      AppColors.textSecondary,
+                      AppColors.textPrimary,
+                    ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: SizeConstants.spaceL),
                 Text(
                   movie!.overview ?? '',
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.textPrimary,
                     fontSize: 14,
                   ),
                   maxLines: 3,
@@ -94,24 +89,29 @@ class HeroSection extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton(String text, IconData icon, Color backgroundColor, Color textColor) {
+  Widget _buildActionButton(
+    String text,
+    IconData icon,
+    Color backgroundColor,
+    Color textColor,
+  ) {
     return ElevatedButton.icon(
       onPressed: () {},
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         foregroundColor: textColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(SizeConstants.radiusXS),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: SizeConstants.paddingL,
+          vertical: SizeConstants.paddingS,
+        ),
       ),
-      icon: Icon(icon, size: 20),
+      icon: Icon(icon, size: SizeConstants.iconSizeM),
       label: Text(
         text,
-        style: TextStyle(
-          color: textColor,
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -130,10 +130,10 @@ class HeroSectionShimmer extends StatelessWidget {
             width: double.infinity,
             color: Colors.grey[900],
           ),
-          
+
           Container(
             height: 500,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(SizeConstants.pagePadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,19 +146,21 @@ class HeroSectionShimmer extends StatelessWidget {
                     width: 250,
                     decoration: BoxDecoration(
                       color: Colors.grey[800],
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(
+                        SizeConstants.radiusS,
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: SizeConstants.spaceL),
                 Row(
                   children: [
                     _buildShimmerButton(),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: SizeConstants.spaceL),
                     _buildShimmerButton(),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: SizeConstants.spaceL),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -170,11 +172,13 @@ class HeroSectionShimmer extends StatelessWidget {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.grey[800],
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(
+                            SizeConstants.radiusXS,
+                          ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: SizeConstants.spaceS),
                     Shimmer.fromColors(
                       baseColor: Colors.grey[800]!,
                       highlightColor: Colors.grey[700]!,
@@ -183,7 +187,9 @@ class HeroSectionShimmer extends StatelessWidget {
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: Colors.grey[800],
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(
+                            SizeConstants.radiusXS,
+                          ),
                         ),
                       ),
                     ),
@@ -203,10 +209,10 @@ class HeroSectionShimmer extends StatelessWidget {
       highlightColor: Colors.grey[700]!,
       child: Container(
         width: 100,
-        height: 40,
+        height: SizeConstants.buttonHeightM,
         decoration: BoxDecoration(
           color: Colors.grey[800],
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(SizeConstants.radiusXS),
         ),
       ),
     );

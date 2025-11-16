@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/route_constants.dart';
+import 'package:movieapp/core/constants/size_constants.dart';
+import 'package:movieapp/core/constants/string_constants.dart';
+import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_bloc.dart';
+import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_event.dart';
+import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_state.dart';
+import 'package:movieapp/features/movies/data/model/movie_model.dart';
+import 'package:movieapp/features/movies/presentation/widgets/cached_movie_image.dart';
 import 'package:movieapp/features/movies/presentation/widgets/hero_section.dart';
+import 'package:movieapp/features/movies/presentation/widgets/home_page_appbar.dart';
 import 'package:movieapp/features/movies/presentation/widgets/movie_list_section.dart';
 import 'package:movieapp/features/now_playing_movies/presentation/bloc/now_playing_movie_bloc.dart';
 import 'package:movieapp/features/now_playing_movies/presentation/bloc/now_playing_movie_event.dart';
@@ -18,26 +29,16 @@ class MovieHomePage extends StatefulWidget {
 
 class _MovieHomePageState extends State<MovieHomePage> {
   final ScrollController _scrollController = ScrollController();
-  double _appBarOpacity = 0.0;
 
   @override
   void initState() {
     super.initState();
     context.read<TrendingMoviesBloc>().add(FetchTrendingMovies());
     context.read<NowPlayingMoviesBloc>().add(FetchNowPlayingMovies());
-
-    _scrollController.addListener(_onScroll);
-  }
-
-  void _onScroll() {
-    setState(() {
-      _appBarOpacity = (_scrollController.offset / 100).clamp(0.0, 1.0);
-    });
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
@@ -45,12 +46,18 @@ class _MovieHomePageState extends State<MovieHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.background,
       extendBodyBehindAppBar: true,
-      appBar: _buildAppBar(),
+      appBar: AnimatedAppBar(
+        scrollController: _scrollController,
+        onBookmarkPressed: () => context.push('/saved'),
+        onSearchPressed: () {
+          context.push(RouteConstants.search);
+        },
+      ),
       body: RefreshIndicator(
-        backgroundColor: Colors.black,
-        color: Colors.red,
+        backgroundColor: AppColors.background,
+        color: AppColors.primary,
         onRefresh: _onRefresh,
         child: CustomScrollView(
           controller: _scrollController,
@@ -61,39 +68,17 @@ class _MovieHomePageState extends State<MovieHomePage> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.black.withOpacity(_appBarOpacity),
-      elevation: 0,
-      title: Row(
-        children: [
-          Text(
-            'MovieApp',
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.search, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
-  }
-
   Future<void> _onRefresh() async {
     context.read<TrendingMoviesBloc>().add(FetchTrendingMovies());
     context.read<NowPlayingMoviesBloc>().add(FetchNowPlayingMovies());
+    context.read<BookmarkBloc>().add(LoadBookmarks());
   }
 
   List<Widget> _buildSlivers() {
     return [
       BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
         builder: (context, state) {
+          print('🔄 Hero section rebuilt');
           return HeroSection(
             movie: state.movies.isNotEmpty ? state.movies.first : null,
             isLoading: state.isLoading && state.movies.isEmpty,
@@ -101,13 +86,22 @@ class _MovieHomePageState extends State<MovieHomePage> {
         },
       ),
 
-      _buildSectionHeader('Continue Watching'),
-      _buildContinueWatchingSection(),
-      _buildSectionHeader('Trending Now'),
+      _buildSectionHeader(
+        AppTexts.yourBookmarks,
+        onSeeAll: () => context.push('/saved'),
+      ),
+      BlocBuilder<BookmarkBloc, BookmarkState>(
+        builder: (context, state) {
+          print('🔄 Bookmark section rebuilt');
+          return _buildBookmarkedSection(state);
+        },
+      ),
+
+      _buildSectionHeader(AppTexts.trendingNow),
       BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
         builder: (context, state) {
+          print('🔄 Trending section rebuilt');
           return MovieListSection(
-            
             movies: state.movies,
             isLoading: state.isLoading,
             error: state.error,
@@ -116,9 +110,11 @@ class _MovieHomePageState extends State<MovieHomePage> {
           );
         },
       ),
-      _buildSectionHeader('Now Playing'),
+
+      _buildSectionHeader(AppTexts.nowPlaying),
       BlocBuilder<NowPlayingMoviesBloc, NowPlayingMoviesState>(
         builder: (context, state) {
+          print('🔄 Now Playing section rebuilt');
           return MovieListSection(
             movies: state.movies,
             isLoading: state.isLoading,
@@ -130,22 +126,27 @@ class _MovieHomePageState extends State<MovieHomePage> {
         },
       ),
 
-      _buildSectionHeader('Popular on MovieApp'),
-      _buildPopularSection(),
-      const SliverToBoxAdapter(child: SizedBox(height: 40)),
+      const SliverToBoxAdapter(
+        child: SizedBox(height: SizeConstants.spaceXXXXL),
+      ),
     ];
   }
 
   Widget _buildSectionHeader(String title, {VoidCallback? onSeeAll}) {
     return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
+      padding: const EdgeInsets.fromLTRB(
+        SizeConstants.pagePadding,
+        SizeConstants.spaceXXL,
+        SizeConstants.pagePadding,
+        SizeConstants.spaceS,
+      ),
       sliver: SliverToBoxAdapter(
         child: Row(
           children: [
             Text(
               title,
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.textPrimary,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -155,8 +156,11 @@ class _MovieHomePageState extends State<MovieHomePage> {
               TextButton(
                 onPressed: onSeeAll,
                 child: const Text(
-                  'See All',
-                  style: TextStyle(color: Colors.grey, fontSize: 14),
+                  AppTexts.seeAll,
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 14,
+                  ),
                 ),
               ),
           ],
@@ -165,28 +169,99 @@ class _MovieHomePageState extends State<MovieHomePage> {
     );
   }
 
-  Widget _buildContinueWatchingSection() {
+  Widget _buildBookmarkedSection(BookmarkState state) {
+    return switch (state) {
+      BookmarkInitial() => _buildBookmarkedLoading(),
+      BookmarkLoading() => _buildBookmarkedLoading(),
+      BookmarkLoaded(:final bookmarks) => _buildBookmarkedMovies(bookmarks),
+      BookmarkUpdated(:final bookmarks) => _buildBookmarkedMovies(bookmarks),
+      BookmarkStatusChecked() => _buildBookmarkedLoading(),
+      BookmarkError() => _buildBookmarkedEmpty(),
+      _ => _buildBookmarkedLoading(),
+    };
+  }
+
+  Widget _buildBookmarkedLoading() {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 180,
+        height: SizeConstants.movieListSectionHeight,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: 5,
+          padding: const EdgeInsets.symmetric(
+            horizontal: SizeConstants.pagePadding,
+          ),
+          itemCount: 3,
           itemBuilder: (context, index) {
             return Container(
-              width: 280,
-              margin: const EdgeInsets.only(right: 8),
+              width: SizeConstants.movieCardWidth,
+              margin: const EdgeInsets.only(right: SizeConstants.spaceS),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(SizeConstants.radiusS),
                 color: Colors.grey[800],
               ),
               child: const Center(
-                child: Text(
-                  'Continue Watching\n(Feature Coming Soon)',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white70),
+                child: CircularProgressIndicator(color: AppColors.primary),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBookmarkedMovies(List<MovieModel> bookmarks) {
+    if (bookmarks.isEmpty) {
+      return _buildBookmarkedEmpty();
+    }
+
+    final displayBookmarks = bookmarks.take(5).toList();
+
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: SizeConstants.bookMarkSectionHeight,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(
+            horizontal: SizeConstants.pagePadding,
+          ),
+          itemCount: displayBookmarks.length,
+          itemBuilder: (context, index) {
+            final movie = displayBookmarks[index];
+            return GestureDetector(
+              onTap: () => context.push('/movie/${movie.id}'),
+              child: Container(
+                width: SizeConstants.bookmarkCardWidth,
+                margin: const EdgeInsets.only(right: SizeConstants.spaceS),
+                child: Stack(
+                  children: [
+                    if (movie.posterPath != null)
+                      CachedMoviePoster(
+                        imageUrl: movie.posterUrlLarge,
+                        width: SizeConstants.bookmarkCardWidth,
+                        height: SizeConstants.bookMarkSectionHeight,
+                        fit: BoxFit.fitHeight,
+                      )
+                    else
+                      Container(
+                        width: SizeConstants.movieCardWidth,
+                        height: SizeConstants.movieListSectionHeight,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            SizeConstants.radiusS,
+                          ),
+                          color: Colors.grey[800],
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.movie,
+                            color: AppColors.textSecondary,
+                            size: SizeConstants.iconSizeXL,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             );
@@ -196,28 +271,48 @@ class _MovieHomePageState extends State<MovieHomePage> {
     );
   }
 
-  Widget _buildPopularSection() {
+  Widget _buildBookmarkedEmpty() {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 180,
+        height: SizeConstants.movieListSectionHeight,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: 5,
+          padding: const EdgeInsets.symmetric(
+            horizontal: SizeConstants.pagePadding,
+          ),
+          itemCount: 1,
           itemBuilder: (context, index) {
-            return Container(
-              width: 120,
-              margin: const EdgeInsets.only(right: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.grey[800],
-              ),
-              child: const Center(
-                child: Text(
-                  'Popular\n(Coming Soon)',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white70),
+            return GestureDetector(
+              onTap: () => context.push('/saved'),
+              child: Container(
+                width: SizeConstants.bookmarkEmptyCardWidth,
+                margin: const EdgeInsets.only(right: SizeConstants.spaceS),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(SizeConstants.radiusS),
+                  color: Colors.grey[800],
+                  border: Border.all(color: Colors.grey[600]!),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.bookmark_border,
+                        size: SizeConstants.iconSizeXL,
+                        color: AppColors.textSecondary,
+                      ),
+                      const SizedBox(height: SizeConstants.spaceS),
+                      Text(
+                        AppTexts.noBookmarksYet,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

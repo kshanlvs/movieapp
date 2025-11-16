@@ -8,15 +8,25 @@ import 'package:movieapp/features/now_playing_movies/data/repository/now_playing
 class NowPlayingImpl implements NowPlayingRepository {
   final NetworkClient client;
   final MovieCacheRepository cacheRepository;
+
   NowPlayingImpl({required this.client, required this.cacheRepository});
+
   @override
   Future<List<MovieModel>> nowPlayingMovies() async {
+    if (cacheRepository.hasCachedMovies(MovieTypes.nowPlaying)) {
+      final cachedMovies = cacheRepository.getCachedMovies(
+        MovieTypes.nowPlaying,
+      );
+      return cachedMovies;
+    }
+
     try {
       final response = await client.get(ApiConstants.nowPlayingMovies);
       final results = response.json['results'] as List;
       final movies = results
           .map((movieData) => MovieModel.fromJson(movieData))
           .toList();
+
       await cacheRepository.cacheMovies(MovieTypes.nowPlaying, movies);
       return movies;
     } catch (e) {

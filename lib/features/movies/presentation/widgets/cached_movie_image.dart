@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/size_constants.dart';
+import 'package:movieapp/core/constants/string_constants.dart';
 import 'package:movieapp/core/network/movie_cache_manager.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -41,46 +44,50 @@ class CachedMovieImage extends StatelessWidget {
     );
   }
 
-  Widget _buildShimmerPlaceholder() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[800]!,
-      highlightColor: Colors.grey[700]!,
-      child: Container(
-        width: width,
-        height: height,
-        color: Colors.grey[800],
-      ),
-    );
-  }
-
-  Widget _buildSimplePlaceholder() {
-    return Container(
+Widget _buildShimmerPlaceholder() {
+  return Shimmer.fromColors(
+    baseColor: AppColors.shimmerBase,
+    highlightColor: AppColors.shimmerHighlight,
+    child: Container(
       width: width,
       height: height,
-      color: Colors.grey[900],
-      child: const Center(
-        child: CircularProgressIndicator(
-          color: Colors.red,
-          strokeWidth: 2,
-        ),
+      color: AppColors.placeholderBackground,
+    ),
+  );
+}
+
+Widget _buildSimplePlaceholder() {
+  return Container(
+    width: width,
+    height: height,
+    color: AppColors.placeholderBackground,
+    child: Center(
+      child: CircularProgressIndicator(
+        color: AppColors.primary,
+        strokeWidth: SizeConstants.borderWidthS,
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildErrorWidget() {
     return Container(
       width: width,
       height: height,
       color: Colors.grey[800],
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, color: Colors.grey, size: 32),
-          SizedBox(height: 8),
+          Icon(
+            Icons.error_outline, 
+            color: AppColors.textSecondary, 
+            size: SizeConstants.iconSizeL
+          ),
+          const SizedBox(height: SizeConstants.spaceS),
           Text(
-            'Failed to load',
+            AppTexts.failedToLoad,
             style: TextStyle(
-              color: Colors.grey,
+              color: AppColors.textSecondary,
               fontSize: 10,
             ),
           ),
@@ -89,7 +96,6 @@ class CachedMovieImage extends StatelessWidget {
     );
   }
 }
-
 
 class CachedMoviePoster extends StatelessWidget {
   final String imageUrl;
@@ -112,7 +118,7 @@ class CachedMoviePoster extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(SizeConstants.radiusS),
     );
   }
 }

@@ -13,6 +13,10 @@ class TrendingMovieImpl implements TrendingMovieRepository {
 
   @override
   Future<List<MovieModel>> trendingMovies() async {
+    if (cacheRepository.hasCachedMovies(MovieTypes.trending)) {
+      return cacheRepository.getCachedMovies(MovieTypes.trending);
+    }
+
     try {
       final response = await client.get(ApiConstants.trendingMovie);
       final results = response.json['results'] as List;

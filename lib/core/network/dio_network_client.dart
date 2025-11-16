@@ -27,11 +27,14 @@ class DioNetworkClient implements NetworkClient {
          BaseOptions(
            queryParameters: {"api_key": config.apiKey},
            baseUrl: config.baseUrl,
-           connectTimeout: const Duration(seconds: 30),
-           receiveTimeout: const Duration(seconds: 30),
+           connectTimeout: const Duration(seconds: 5),
+           receiveTimeout: const Duration(seconds: 5),
+           persistentConnection: true, 
+      
            headers: {
              'Content-Type': 'application/json',
              'Accept': 'application/json',
+             'Accept-Encoding': 'gzip', 
            },
          ),
        ) {

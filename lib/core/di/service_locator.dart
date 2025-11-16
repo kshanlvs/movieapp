@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:movieapp/core/config/environment.dart';
 import 'package:movieapp/core/config/environment_detector.dart';
+import 'package:movieapp/core/network/cached_network_client.dart';
 import 'package:movieapp/core/network/dio_network_client.dart';
 import 'package:movieapp/core/network/network_client.dart';
 import 'package:movieapp/core/network/network_inteceptor_manager.dart';
@@ -39,15 +40,16 @@ class ServiceLocator {
   }
 
   Future<void> _registerNetworkClient() async {
-    sl.registerLazySingleton<NetworkClient>(
-      () => DioNetworkClient(
+    sl.registerLazySingleton<NetworkClient>(() {
+      final dioClient = DioNetworkClient(
         config: sl<Environment>(),
         logger: sl<NetworkLogger>(),
         errorHandler: sl<NetworkErrorHandler>(),
         responseFactory: sl<NetworkResponseFactory>(),
         interceptorManager: sl<NetworkInterceptorManager>(),
-      ),
-    );
+      );
+      return CachedNetworkClient(dioClient);
+    });
   }
 
   Future<void> _registerMovieFeature() async {

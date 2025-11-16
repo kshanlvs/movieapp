@@ -54,6 +54,16 @@ class SizeConstants {
   static const double buttonHeightL = 56;
   static const double buttonHeightXL = 64;
 
+  static const double movieListSectionHeight = 300;
+  static const double movieCardWidth = 120;
+  static const double bookMarkSectionHeight = 400;
+  static const double bookmarkCardWidth = 200;
+  static const double bookmarkEmptyCardWidth = 280;
+
+  // You might also want to add these for consistency:
+  static const double sectionTitleFontSize = 20;
+  static const double seeAllFontSize = 14;
+
   // App Bar
   static const double appBarHeight = 56;
   static const double appBarElevation = 0;
@@ -65,4 +75,8 @@ class SizeConstants {
   // Divider
   static const double dividerHeight = 1;
   static const double dividerThickness = 0.5;
+
+  static const double movieListContentHeight = 220;    // Movie grid with cards
+  static const double movieListErrorHeight = 200;      // Error state
+  static const double movieListEmptyHeight = 200;  
 }

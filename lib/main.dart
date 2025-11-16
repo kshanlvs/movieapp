@@ -6,8 +6,13 @@ import 'package:movieapp/core/config/environment_detector.dart';
 import 'package:movieapp/core/database/database_manager.dart';
 import 'package:movieapp/core/di/service_locator.dart';
 import 'package:movieapp/core/router/router_config.dart';
-import 'package:movieapp/features/movies/presentation/bloc/movie_bloc.dart';
-import 'package:movieapp/features/movies/presentation/bloc/movie_event.dart';
+import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_bloc.dart';
+import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_event.dart';
+import 'package:movieapp/features/movie_details/presentation/bloc/movie_detail_bloc.dart';
+
+import 'package:movieapp/features/now_playing_movies/presentation/bloc/now_playing_movie_bloc.dart';
+import 'package:movieapp/features/search/presentation/bloc/search_bloc.dart';
+import 'package:movieapp/features/trending_movies/presentation/bloc/trending_movie_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,9 +36,21 @@ class MovieApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => sl<MovieBloc>()..add(FetchTrendingMovies()),
+        BlocProvider<TrendingMoviesBloc>(
+          create: (context) => sl<TrendingMoviesBloc>(),
         ),
+        BlocProvider<NowPlayingMoviesBloc>(
+          create: (context) => sl<NowPlayingMoviesBloc>(),
+        ),
+
+        BlocProvider<MovieDetailBloc>(
+          create: (context) => sl<MovieDetailBloc>(),
+        ),
+        BlocProvider<BookmarkBloc>(
+          create: (context) => sl<BookmarkBloc>()..add(LoadBookmarks()),
+        ),
+
+        BlocProvider(create:(context) => sl<SearchBloc>())
       ],
       child: MaterialApp.router(
         routerConfig: routerConfig,

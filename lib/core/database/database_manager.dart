@@ -11,6 +11,6 @@ class DatabaseManager {
 
     await Hive.openBox(MovieTypes.trending);
     await Hive.openBox(MovieTypes.nowPlaying);
-    await Hive.openBox('bookmarks');
+    await Hive.openBox(MovieTypes.bookmarked);
   }
 }
