@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
 import 'package:movieapp/features/movie_details/data/model/movie_detail_model.dart';
@@ -26,7 +28,10 @@ class MovieHeroSection extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.center,
-                  colors: [AppColors.background.withOpacity(0.87), Colors.transparent],
+                  colors: [
+                    AppColors.background.withOpacity(0.87),
+                    Colors.transparent,
+                  ],
                 ),
               ),
             ),

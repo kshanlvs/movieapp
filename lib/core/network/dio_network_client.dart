@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:movieapp/core/config/environment.dart';
 import 'package:movieapp/core/network/network_client.dart';
 import 'package:movieapp/core/network/network_inteceptor_manager.dart';
-import 'network_logger.dart';
-import 'network_error_handler.dart';
-import 'network_response_factory.dart';
+import 'package:movieapp/core/network/network_logger.dart';
+import 'package:movieapp/core/network/network_error_handler.dart';
+import 'package:movieapp/core/network/network_response_factory.dart';
 
 class DioNetworkClient implements NetworkClient {
   final Dio _dio;
@@ -29,12 +29,12 @@ class DioNetworkClient implements NetworkClient {
            baseUrl: config.baseUrl,
            connectTimeout: const Duration(seconds: 5),
            receiveTimeout: const Duration(seconds: 5),
-           persistentConnection: true, 
-      
+           persistentConnection: true,
+
            headers: {
              'Content-Type': 'application/json',
              'Accept': 'application/json',
-             'Accept-Encoding': 'gzip', 
+             'Accept-Encoding': 'gzip',
            },
          ),
        ) {

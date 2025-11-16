@@ -4,7 +4,7 @@ import 'package:movieapp/core/constants/app_colors.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
 import 'package:movieapp/features/movies/data/model/movie_model.dart';
-import 'movie_card.dart';
+import 'package:movieapp/features/movies/presentation/widgets/movie_card.dart';
 
 class MovieListSection extends StatelessWidget {
   final List<MovieModel> movies;
@@ -52,9 +52,9 @@ class MovieListSection extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 AppTexts.errorLoadingMovies,
-                style: const TextStyle(color: AppColors.textPrimary),
+                style: TextStyle(color: AppColors.textPrimary),
               ),
               const SizedBox(height: SizeConstants.spaceS),
               ElevatedButton(
@@ -92,13 +92,13 @@ class MovieListSection extends StatelessWidget {
   }
 
   Widget _buildEmptyState() {
-    return SliverToBoxAdapter(
+    return const SliverToBoxAdapter(
       child: SizedBox(
         height: SizeConstants.movieListEmptyHeight,
         child: Center(
           child: Text(
             AppTexts.noMoviesAvailable,
-            style: const TextStyle(color: AppColors.textSecondary),
+            style: TextStyle(color: AppColors.textSecondary),
           ),
         ),
       ),

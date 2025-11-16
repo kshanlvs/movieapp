@@ -9,11 +9,10 @@ class MovieCacheManager extends CacheManager {
           key,
           stalePeriod: const Duration(days: 7),
           maxNrOfCacheObjects: 200,
-      
         ),
       );
 
   static final MovieCacheManager _instance = MovieCacheManager._();
-  
+
   factory MovieCacheManager() => _instance;
 }

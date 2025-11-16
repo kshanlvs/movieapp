@@ -16,9 +16,11 @@ class SearchResponseModel {
   factory SearchResponseModel.fromJson(Map<String, dynamic> json) {
     return SearchResponseModel(
       page: json['page'] ?? 1,
-      results: (json['results'] as List<dynamic>?)
-          ?.map((item) => MovieModel.fromJson(item))
-          .toList() ?? [],
+      results:
+          (json['results'] as List<dynamic>?)
+              ?.map((item) => MovieModel.fromJson(item))
+              .toList() ??
+          [],
       totalPages: json['total_pages'] ?? 1,
       totalResults: json['total_results'] ?? 0,
     );

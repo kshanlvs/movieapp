@@ -1,11 +1,11 @@
-import 'environment.dart';
-import 'environment_type.dart';
-import 'dev_environment.dart';
-import 'staging_environment.dart';
-import 'prod_environment.dart';
+import 'package:movieapp/core/config/environment.dart';
+import 'package:movieapp/core/config/environment_type.dart';
+import 'package:movieapp/core/config/dev_environment.dart';
+import 'package:movieapp/core/config/staging_environment.dart';
+import 'package:movieapp/core/config/prod_environment.dart';
 
 class EnvironmentFactory {
-  static Environment createEnvironment(EnvironmentType type) {
+  Environment createEnvironment(EnvironmentType type) {
     switch (type) {
       case EnvironmentType.development:
         return DevEnvironment();
@@ -16,7 +16,7 @@ class EnvironmentFactory {
     }
   }
 
-  static Environment createFromString(String envString) {
+  Environment createFromString(String envString) {
     final type = EnvironmentType.fromString(envString);
     return createEnvironment(type);
   }

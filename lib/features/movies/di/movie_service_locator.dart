@@ -24,7 +24,7 @@ class MovieServiceLocator {
     sl.registerLazySingleton<MovieCacheRepository>(
       () => MovieCacheRepositoryImpl(),
     );
-    
+
     sl.registerLazySingleton<TrendingMovieRepository>(
       () => TrendingMovieImpl(client: sl(), cacheRepository: sl()),
     );
@@ -37,7 +37,8 @@ class MovieServiceLocator {
       () => NowPlayingImpl(client: sl(), cacheRepository: sl()),
     );
 
-    sl.registerLazySingleton<BookmarkRepository>(  // ✅ Fixed to singleton
+    sl.registerLazySingleton<BookmarkRepository>(
+      // ✅ Fixed to singleton
       () => BookmarkRepositoryImpl(cacheRepository: sl<MovieCacheRepository>()),
     );
 
@@ -54,14 +55,15 @@ class MovieServiceLocator {
       () => BookmarkBloc(repository: sl<BookmarkRepository>()),
     );
 
-    sl.registerFactory<SearchBloc>(  // ✅ Added Search BLoC
+    sl.registerFactory<SearchBloc>(
+      // ✅ Added Search BLoC
       () => SearchBloc(searchRepository: sl<SearchRepository>()),
     );
 
     sl.registerFactory<TrendingMoviesBloc>(
       () => TrendingMoviesBloc(repository: sl<TrendingMovieRepository>()),
     );
-    
+
     sl.registerFactory<NowPlayingMoviesBloc>(
       () => NowPlayingMoviesBloc(repository: sl<NowPlayingRepository>()),
     );

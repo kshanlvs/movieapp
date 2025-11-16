@@ -9,14 +9,14 @@ abstract class NetworkLogger {
 }
 
 class ConsoleNetworkLogger implements NetworkLogger {
-  static const bool _isDebug = bool.fromEnvironment('DEBUG', defaultValue: false);
+  static const bool _isDebug = bool.fromEnvironment('DEBUG');
 
   @override
   void logRequest(RequestOptions options) {
     if (!_isDebug) return;
-    
+
     developer.log(
-      '🌐 NETWORK REQUEST',
+      'NETWORK REQUEST',
       name: 'Network',
       time: DateTime.now(),
       error: {
@@ -41,9 +41,9 @@ class ConsoleNetworkLogger implements NetworkLogger {
         : responseBody;
 
     developer.log(
-      '✅ NETWORK RESPONSE',
+      'NETWORK RESPONSE',
       name: 'Network',
-   
+
       time: DateTime.now(),
       error: {
         'url': response.requestOptions.uri.toString(),
@@ -60,7 +60,7 @@ class ConsoleNetworkLogger implements NetworkLogger {
     developer.log(
       'NETWORK ERROR',
       name: 'Network',
-    
+
       time: DateTime.now(),
       error: {
         'url': error.requestOptions.uri.toString(),

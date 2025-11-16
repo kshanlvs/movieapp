@@ -51,7 +51,11 @@ class MovieContentSection extends StatelessWidget {
   Widget _buildRatingSection(MovieDetails details, bool isBookmarked) {
     return Row(
       children: [
-        Icon(Icons.star, color: Colors.amber, size: SizeConstants.iconSizeM),
+        const Icon(
+          Icons.star,
+          color: Colors.amber,
+          size: SizeConstants.iconSizeM,
+        ),
         const SizedBox(width: SizeConstants.spaceXS),
         Text(
           details.voteAverage.toStringAsFixed(1),
@@ -64,14 +68,14 @@ class MovieContentSection extends StatelessWidget {
   }
 
   Widget _buildBookmarkIndicator() {
-    return Row(
+    return const Row(
       children: [
         Icon(
           Icons.bookmark,
           color: AppColors.primary,
           size: SizeConstants.iconSizeS,
         ),
-        const SizedBox(width: SizeConstants.spaceXS),
+        SizedBox(width: SizeConstants.spaceXS),
         Text(
           AppTexts.saved,
           style: TextStyle(

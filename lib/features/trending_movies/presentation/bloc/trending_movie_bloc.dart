@@ -3,32 +3,34 @@ import 'package:movieapp/features/trending_movies/data/repository/trending_movie
 import 'package:movieapp/features/trending_movies/presentation/bloc/trending_movie_event.dart';
 import 'package:movieapp/features/trending_movies/presentation/bloc/trending_movie_state.dart';
 
-
-class TrendingMoviesBloc extends Bloc<TrendingMoviesEvent, TrendingMoviesState> {
+class TrendingMoviesBloc
+    extends Bloc<TrendingMoviesEvent, TrendingMoviesState> {
   final TrendingMovieRepository repository;
 
-  TrendingMoviesBloc({required this.repository}) : super(const TrendingMoviesState()) {
+  TrendingMoviesBloc({required this.repository})
+    : super(const TrendingMoviesState()) {
     on<FetchTrendingMovies>(_onFetchTrendingMovies);
   }
 
-Future<void> _onFetchTrendingMovies(
-  FetchTrendingMovies event,
-  Emitter<TrendingMoviesState> emit,
-) async {
-  final previousMovies = state.movies;
-  
-  emit(state.copyWith(isLoading: true, error: '', movies: const []));
+  Future<void> _onFetchTrendingMovies(
+    FetchTrendingMovies event,
+    Emitter<TrendingMoviesState> emit,
+  ) async {
+    final previousMovies = state.movies;
 
-  try {
-    final movies = await repository.trendingMovies();
-    emit(state.copyWith(isLoading: false, movies: movies));
-  } catch (e) {
+    emit(state.copyWith(isLoading: true, error: '', movies: const []));
 
-    emit(state.copyWith(
-      isLoading: false, 
-      error: e.toString(),
-      movies: previousMovies,
-    ));
+    try {
+      final movies = await repository.trendingMovies();
+      emit(state.copyWith(isLoading: false, movies: movies));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoading: false,
+          error: e.toString(),
+          movies: previousMovies,
+        ),
+      );
+    }
   }
-}
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -41,9 +43,7 @@ class SavedMoviesPage extends StatelessWidget {
   }
 
   Widget _buildLoading() {
-    return const Center(
-      child: CircularProgressIndicator(color: Colors.red),
-    );
+    return const Center(child: CircularProgressIndicator(color: Colors.red));
   }
 
   Widget _buildBookmarks(List<MovieModel> bookmarks) {
@@ -54,7 +54,7 @@ class SavedMoviesPage extends StatelessWidget {
       padding: const EdgeInsets.all(SizeConstants.pagePadding),
       child: ListView.separated(
         itemCount: bookmarks.length,
-        separatorBuilder: (context, index) => 
+        separatorBuilder: (context, index) =>
             const SizedBox(height: SizeConstants.spaceM),
         itemBuilder: (context, index) {
           final movie = bookmarks[index];
@@ -75,9 +75,9 @@ class SavedMoviesPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.bookmark_border, 
-            size: SizeConstants.iconSizeXXXL, 
-            color: Colors.grey[600]
+            Icons.bookmark_border,
+            size: SizeConstants.iconSizeXXXL,
+            color: Colors.grey[600],
           ),
           const SizedBox(height: SizeConstants.spaceL),
           const Text(
@@ -103,8 +103,8 @@ class SavedMoviesPage extends StatelessWidget {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(
-                horizontal: SizeConstants.paddingXXL, 
-                vertical: SizeConstants.paddingM
+                horizontal: SizeConstants.paddingXXL,
+                vertical: SizeConstants.paddingM,
               ),
             ),
             child: const Text('Browse Movies'),
@@ -120,9 +120,9 @@ class SavedMoviesPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.error_outline, 
-            size: SizeConstants.iconSizeXXL, 
-            color: Colors.red[300]
+            Icons.error_outline,
+            size: SizeConstants.iconSizeXXL,
+            color: Colors.red[300],
           ),
           const SizedBox(height: SizeConstants.spaceL),
           const Text(
@@ -199,14 +199,13 @@ class _SavedMovieListItem extends StatelessWidget {
                         imageUrl: movie.posterUrlMedium,
                         width: 100,
                         height: double.infinity,
-                        fit: BoxFit.cover,
                       ),
                     )
-                  : Center(
+                  : const Center(
                       child: Icon(
-                        Icons.movie, 
-                        color: Colors.white70, 
-                        size: SizeConstants.iconSizeXL
+                        Icons.movie,
+                        color: Colors.white70,
+                        size: SizeConstants.iconSizeXL,
                       ),
                     ),
             ),
@@ -241,7 +240,7 @@ class _SavedMovieListItem extends StatelessWidget {
                         // Rating
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.star,
                               color: Colors.amber,
                               size: SizeConstants.iconSizeS,
@@ -296,7 +295,7 @@ class _SavedMovieListItem extends StatelessWidget {
                 onPressed: () {
                   _showRemoveDialog(context, movie);
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.bookmark_remove,
                   color: Colors.red,
                   size: SizeConstants.iconSizeL,
@@ -343,10 +342,7 @@ class _SavedMovieListItem extends StatelessWidget {
                 ),
               );
             },
-            child: const Text(
-              'Remove', 
-              style: TextStyle(color: Colors.white)
-            ),
+            child: const Text('Remove', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),

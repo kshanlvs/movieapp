@@ -16,7 +16,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _SearchPageContent();
+    return const _SearchPageContent();
   }
 }
 
@@ -30,7 +30,10 @@ class _SearchPageContent extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           AppTexts.searchMovies,
-          style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: AppColors.background,
         elevation: SizeConstants.appBarElevation,
@@ -62,21 +65,21 @@ class _SearchPageContent extends StatelessWidget {
   }
 
   Widget _buildInitialState() {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.search, 
-            size: SizeConstants.iconSizeXXL, 
-            color: AppColors.textSecondary
+            Icons.search,
+            size: SizeConstants.iconSizeXXL,
+            color: AppColors.textSecondary,
           ),
-          const SizedBox(height: SizeConstants.spaceL),
+          SizedBox(height: SizeConstants.spaceL),
           Text(
             AppTexts.searchForMovies,
             style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
           ),
-          const SizedBox(height: SizeConstants.spaceS),
+          SizedBox(height: SizeConstants.spaceS),
           Text(
             AppTexts.typeToFindMovies,
             style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
@@ -152,21 +155,21 @@ class _SearchPageContent extends StatelessWidget {
 
   Widget _buildResults(SearchLoaded state) {
     if (state.movies.isEmpty) {
-      return Center(
+      return const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.movie_filter, 
-              size: SizeConstants.iconSizeXXL, 
-              color: AppColors.textSecondary
+              Icons.movie_filter,
+              size: SizeConstants.iconSizeXXL,
+              color: AppColors.textSecondary,
             ),
-            const SizedBox(height: SizeConstants.spaceL),
+            SizedBox(height: SizeConstants.spaceL),
             Text(
               AppTexts.noMoviesFound,
               style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
             ),
-            const SizedBox(height: SizeConstants.spaceS),
+            SizedBox(height: SizeConstants.spaceS),
             Text(
               AppTexts.trySearchingSomethingElse,
               style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
@@ -191,19 +194,21 @@ class _SearchPageContent extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error_outline, 
-            size: SizeConstants.iconSizeXXL, 
-            color: AppColors.primary
+          const Icon(
+            Icons.error_outline,
+            size: SizeConstants.iconSizeXXL,
+            color: AppColors.primary,
           ),
           const SizedBox(height: SizeConstants.spaceL),
-          Text(
+          const Text(
             AppTexts.searchFailed,
-            style: const TextStyle(color: AppColors.textPrimary, fontSize: 18),
+            style: TextStyle(color: AppColors.textPrimary, fontSize: 18),
           ),
           const SizedBox(height: SizeConstants.spaceS),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: SizeConstants.spaceXXXL),
+            padding: const EdgeInsets.symmetric(
+              horizontal: SizeConstants.spaceXXXL,
+            ),
             child: Text(
               message,
               style: const TextStyle(color: AppColors.textSecondary),
@@ -213,7 +218,7 @@ class _SearchPageContent extends StatelessWidget {
           const SizedBox(height: SizeConstants.spaceL),
           ElevatedButton(
             onPressed: () {
-              context.read<SearchBloc>().add(SearchClear());
+              context.read<SearchBloc>().add(const SearchClear());
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
@@ -260,8 +265,8 @@ class _SearchBarState extends State<_SearchBar> {
           // Search Icon
           Padding(
             padding: const EdgeInsets.only(
-              left: SizeConstants.spaceXL, 
-              right: SizeConstants.spaceM
+              left: SizeConstants.spaceXL,
+              right: SizeConstants.spaceM,
             ),
             child: Icon(
               Icons.search_rounded,
@@ -291,7 +296,9 @@ class _SearchBarState extends State<_SearchBar> {
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
-                contentPadding: const EdgeInsets.only(right: SizeConstants.spaceL),
+                contentPadding: const EdgeInsets.only(
+                  right: SizeConstants.spaceL,
+                ),
               ),
               onChanged: (value) {
                 context.read<SearchBloc>().add(SearchQueryChanged(value));
@@ -309,7 +316,7 @@ class _SearchBarState extends State<_SearchBar> {
               child: GestureDetector(
                 onTap: () {
                   _controller.clear();
-                  context.read<SearchBloc>().add(SearchClear());
+                  context.read<SearchBloc>().add(const SearchClear());
                   _focusNode.requestFocus();
                 },
                 child: Container(
@@ -382,14 +389,13 @@ class _SearchMovieItem extends StatelessWidget {
                         imageUrl: movie.posterUrl,
                         width: 100,
                         height: double.infinity,
-                        fit: BoxFit.cover,
                       ),
                     )
-                  : Center(
+                  : const Center(
                       child: Icon(
-                        Icons.movie, 
-                        color: AppColors.textSecondary, 
-                        size: SizeConstants.iconSizeXL
+                        Icons.movie,
+                        color: AppColors.textSecondary,
+                        size: SizeConstants.iconSizeXL,
                       ),
                     ),
             ),
@@ -426,14 +432,15 @@ class _SearchMovieItem extends StatelessWidget {
                           // Rating
                           Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.star,
                                 color: Colors.amber,
                                 size: SizeConstants.iconSizeS,
                               ),
                               const SizedBox(width: SizeConstants.spaceXS),
                               Text(
-                                movie.voteAverage?.toStringAsFixed(1) ?? AppTexts.notAvailable,
+                                movie.voteAverage?.toStringAsFixed(1) ??
+                                    AppTexts.notAvailable,
                                 style: const TextStyle(
                                   color: AppColors.textSecondary,
                                   fontSize: 14,

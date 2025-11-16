@@ -76,7 +76,7 @@ class SizeConstants {
   static const double dividerHeight = 1;
   static const double dividerThickness = 0.5;
 
-  static const double movieListContentHeight = 220;    // Movie grid with cards
-  static const double movieListErrorHeight = 200;      // Error state
-  static const double movieListEmptyHeight = 200;  
+  static const double movieListContentHeight = 220; // Movie grid with cards
+  static const double movieListErrorHeight = 200; // Error state
+  static const double movieListEmptyHeight = 200;
 }

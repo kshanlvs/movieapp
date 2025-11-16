@@ -78,7 +78,6 @@ class _MovieHomePageState extends State<MovieHomePage> {
     return [
       BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
         builder: (context, state) {
-          print('🔄 Hero section rebuilt');
           return HeroSection(
             movie: state.movies.isNotEmpty ? state.movies.first : null,
             isLoading: state.isLoading && state.movies.isEmpty,
@@ -92,7 +91,6 @@ class _MovieHomePageState extends State<MovieHomePage> {
       ),
       BlocBuilder<BookmarkBloc, BookmarkState>(
         builder: (context, state) {
-          print('🔄 Bookmark section rebuilt');
           return _buildBookmarkedSection(state);
         },
       ),
@@ -100,7 +98,6 @@ class _MovieHomePageState extends State<MovieHomePage> {
       _buildSectionHeader(AppTexts.trendingNow),
       BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
         builder: (context, state) {
-          print('🔄 Trending section rebuilt');
           return MovieListSection(
             movies: state.movies,
             isLoading: state.isLoading,
@@ -114,7 +111,6 @@ class _MovieHomePageState extends State<MovieHomePage> {
       _buildSectionHeader(AppTexts.nowPlaying),
       BlocBuilder<NowPlayingMoviesBloc, NowPlayingMoviesState>(
         builder: (context, state) {
-          print('🔄 Now Playing section rebuilt');
           return MovieListSection(
             movies: state.movies,
             isLoading: state.isLoading,
@@ -253,7 +249,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
                           ),
                           color: Colors.grey[800],
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Icon(
                             Icons.movie,
                             color: AppColors.textSecondary,
@@ -293,7 +289,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
                   color: Colors.grey[800],
                   border: Border.all(color: Colors.grey[600]!),
                 ),
-                child: Center(
+                child: const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -302,7 +298,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
                         size: SizeConstants.iconSizeXL,
                         color: AppColors.textSecondary,
                       ),
-                      const SizedBox(height: SizeConstants.spaceS),
+                      SizedBox(height: SizeConstants.spaceS),
                       Text(
                         AppTexts.noBookmarksYet,
                         textAlign: TextAlign.center,

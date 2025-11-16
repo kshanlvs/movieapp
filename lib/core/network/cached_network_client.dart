@@ -14,8 +14,7 @@ class CachedNetworkClient implements NetworkClient {
     Map<String, dynamic>? queryParameters,
   }) async {
     final cacheKey = _generateCacheKey(url, queryParameters);
-    
-  
+
     if (_isCacheValid(cacheKey)) {
       return _cache[cacheKey]!.response;
     }
@@ -26,12 +25,12 @@ class CachedNetworkClient implements NetworkClient {
         headers: headers,
         queryParameters: queryParameters,
       );
-      
+
       _cache[cacheKey] = _CachedResponse(
         response: response,
         timestamp: DateTime.now(),
       );
-      
+
       return response;
     } catch (e) {
       if (_cache.containsKey(cacheKey)) {
@@ -40,6 +39,7 @@ class CachedNetworkClient implements NetworkClient {
       rethrow;
     }
   }
+
   @override
   Future<NetworkResponse> post(
     String url, {
@@ -80,10 +80,11 @@ class CachedNetworkClient implements NetworkClient {
   void setTimeout(Duration timeout) {
     _decoratedClient.setTimeout(timeout);
   }
+
   String _generateCacheKey(String url, Map<String, dynamic>? queryParameters) {
-    final params = queryParameters?.entries
-        .map((e) => '${e.key}=${e.value}')
-        .join('&') ?? '';
+    final params =
+        queryParameters?.entries.map((e) => '${e.key}=${e.value}').join('&') ??
+        '';
     return '$url?$params';
   }
 

@@ -28,7 +28,6 @@ class MovieDetails {
   final double voteAverage;
   final int voteCount;
 
-  
   final ImageUrlGenerator _imageUrlGenerator;
 
   MovieDetails({
@@ -58,7 +57,7 @@ class MovieDetails {
     this.video = false,
     this.voteAverage = 0.0,
     this.voteCount = 0,
-      ImageUrlGenerator? imageUrlGenerator,
+    ImageUrlGenerator? imageUrlGenerator,
   }) : _imageUrlGenerator = imageUrlGenerator ?? const TmdbImageUrlGenerator();
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) {
@@ -69,14 +68,16 @@ class MovieDetails {
           ? BelongsToCollection.fromJson(json['belongs_to_collection'])
           : null,
       budget: json['budget'] as int? ?? 0,
-      genres: (json['genres'] as List<dynamic>?)
+      genres:
+          (json['genres'] as List<dynamic>?)
               ?.map((v) => Genres.fromJson(v as Map<String, dynamic>))
               .toList() ??
           [],
       homepage: json['homepage'] as String?,
       id: json['id'] as int,
       imdbId: json['imdb_id'] as String?,
-      originCountry: (json['origin_country'] as List<dynamic>?)
+      originCountry:
+          (json['origin_country'] as List<dynamic>?)
               ?.map((v) => v.toString())
               .toList() ??
           [],
@@ -85,18 +86,25 @@ class MovieDetails {
       overview: json['overview'] as String?,
       popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
       posterPath: json['poster_path'] as String?,
-      productionCompanies: (json['production_companies'] as List<dynamic>?)
-              ?.map((v) => ProductionCompanies.fromJson(v as Map<String, dynamic>))
+      productionCompanies:
+          (json['production_companies'] as List<dynamic>?)
+              ?.map(
+                (v) => ProductionCompanies.fromJson(v as Map<String, dynamic>),
+              )
               .toList() ??
           [],
-      productionCountries: (json['production_countries'] as List<dynamic>?)
-              ?.map((v) => ProductionCountries.fromJson(v as Map<String, dynamic>))
+      productionCountries:
+          (json['production_countries'] as List<dynamic>?)
+              ?.map(
+                (v) => ProductionCountries.fromJson(v as Map<String, dynamic>),
+              )
               .toList() ??
           [],
       releaseDate: json['release_date'] as String?,
       revenue: json['revenue'] as int? ?? 0,
       runtime: json['runtime'] as int?,
-      spokenLanguages: (json['spoken_languages'] as List<dynamic>?)
+      spokenLanguages:
+          (json['spoken_languages'] as List<dynamic>?)
               ?.map((v) => SpokenLanguages.fromJson(v as Map<String, dynamic>))
               .toList() ??
           [],
@@ -125,8 +133,12 @@ class MovieDetails {
     data['overview'] = overview;
     data['popularity'] = popularity;
     data['poster_path'] = posterPath;
-    data['production_companies'] = productionCompanies.map((v) => v.toJson()).toList();
-    data['production_countries'] = productionCountries.map((v) => v.toJson()).toList();
+    data['production_companies'] = productionCompanies
+        .map((v) => v.toJson())
+        .toList();
+    data['production_countries'] = productionCountries
+        .map((v) => v.toJson())
+        .toList();
     data['release_date'] = releaseDate;
     data['revenue'] = revenue;
     data['runtime'] = runtime;
@@ -183,17 +195,11 @@ class Genres {
   Genres({required this.id, required this.name});
 
   factory Genres.fromJson(Map<String, dynamic> json) {
-    return Genres(
-      id: json['id'] as int,
-      name: json['name'] as String? ?? '',
-    );
+    return Genres(id: json['id'] as int, name: json['name'] as String? ?? '');
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-    };
+    return {'id': id, 'name': name};
   }
 }
 
@@ -243,10 +249,7 @@ class ProductionCountries {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'iso_3166_1': iso31661,
-      'name': name,
-    };
+    return {'iso_3166_1': iso31661, 'name': name};
   }
 }
 
@@ -270,10 +273,6 @@ class SpokenLanguages {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'english_name': englishName,
-      'iso_639_1': iso6391,
-      'name': name,
-    };
+    return {'english_name': englishName, 'iso_639_1': iso6391, 'name': name};
   }
 }

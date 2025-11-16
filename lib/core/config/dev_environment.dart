@@ -1,7 +1,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'environment.dart';
-import 'environment_type.dart';
+import 'package:movieapp/core/config/environment.dart';
+import 'package:movieapp/core/config/environment_type.dart';
 
 class DevEnvironment implements Environment {
   @override

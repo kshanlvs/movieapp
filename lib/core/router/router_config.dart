@@ -44,11 +44,11 @@ final GoRouter routerConfig = GoRouter(
             const end = Offset.zero;
             const curve = Curves.easeInOutQuart;
 
-            var tween = Tween(
+            final tween = Tween(
               begin: begin,
               end: end,
             ).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
+            final offsetAnimation = animation.drive(tween);
 
             return SlideTransition(
               position: offsetAnimation,
@@ -72,11 +72,11 @@ final GoRouter routerConfig = GoRouter(
             const end = Offset.zero;
             const curve = Curves.fastEaseInToSlowEaseOut;
 
-            var tween = Tween(
+            final tween = Tween(
               begin: begin,
               end: end,
             ).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
+            final offsetAnimation = animation.drive(tween);
 
             return SlideTransition(
               position: offsetAnimation,
@@ -99,7 +99,7 @@ final GoRouter routerConfig = GoRouter(
       path: '/saved',
       name: 'saved-movies',
       pageBuilder: (context, state) {
-       return CustomTransitionPage(
+        return CustomTransitionPage(
           key: state.pageKey,
           child: const SavedMoviesPage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -107,15 +107,14 @@ final GoRouter routerConfig = GoRouter(
             const end = Offset.zero;
             const curve = Curves.easeInOut;
 
-            var tween = Tween(
+            final tween = Tween(
               begin: begin,
               end: end,
             ).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
+            final offsetAnimation = animation.drive(tween);
 
             return SlideTransition(position: offsetAnimation, child: child);
           },
-          transitionDuration: const Duration(milliseconds: 300),
         );
       },
     ),
@@ -131,15 +130,14 @@ final GoRouter routerConfig = GoRouter(
             const end = Offset.zero;
             const curve = Curves.easeInOut;
 
-            var tween = Tween(
+            final tween = Tween(
               begin: begin,
               end: end,
             ).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
+            final offsetAnimation = animation.drive(tween);
 
             return SlideTransition(position: offsetAnimation, child: child);
           },
-          transitionDuration: const Duration(milliseconds: 300),
         );
       },
     ),

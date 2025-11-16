@@ -1,5 +1,3 @@
-
-
 import 'package:movieapp/features/movies/data/model/movie_model.dart';
 
 abstract class BookmarkState {
@@ -20,16 +18,19 @@ class BookmarkUpdated extends BookmarkState {
   final bool isBookmarked;
   final List<MovieModel> bookmarks;
   const BookmarkUpdated({
-    required this.movieId, 
+    required this.movieId,
     required this.isBookmarked,
-    required this.bookmarks, 
+    required this.bookmarks,
   });
 }
 
 class BookmarkStatusChecked extends BookmarkState {
   final int movieId;
   final bool isBookmarked;
-  const BookmarkStatusChecked({required this.movieId, required this.isBookmarked});
+  const BookmarkStatusChecked({
+    required this.movieId,
+    required this.isBookmarked,
+  });
 }
 
 class BookmarkError extends BookmarkState {

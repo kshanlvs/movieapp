@@ -8,7 +8,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepository;
   Timer? _debounceTimer;
 
-  SearchBloc({required this.searchRepository}) : super(SearchInitial()) {
+  SearchBloc({required this.searchRepository}) : super(const SearchInitial()) {
     on<SearchQueryChanged>(_onSearchQueryChanged);
     on<SearchClear>(_onSearchClear);
     on<_PerformSearchEvent>(_onPerformSearch);
@@ -18,17 +18,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     SearchQueryChanged event,
     Emitter<SearchState> emit,
   ) {
-
     _debounceTimer?.cancel();
 
     if (event.query.isEmpty) {
-      emit(SearchInitial());
+      emit(const SearchInitial());
       return;
     }
 
-
-    if (state is! SearchLoaded || (state as SearchLoaded).query != event.query) {
-    }
+    if (state is! SearchLoaded ||
+        (state as SearchLoaded).query != event.query) {}
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () {
       add(_PerformSearchEvent(query: event.query));
@@ -43,23 +41,22 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     try {
       final result = await searchRepository.searchMovies(event.query);
-      
-      emit(SearchLoaded(
-        movies: result.results,
-        query: event.query,
-        totalResults: result.totalResults,
-      ));
+
+      emit(
+        SearchLoaded(
+          movies: result.results,
+          query: event.query,
+          totalResults: result.totalResults,
+        ),
+      );
     } catch (e) {
       emit(SearchError(message: 'Failed to search: ${e.toString()}'));
     }
   }
 
-  void _onSearchClear(
-    SearchClear event,
-    Emitter<SearchState> emit,
-  ) {
+  void _onSearchClear(SearchClear event, Emitter<SearchState> emit) {
     _debounceTimer?.cancel();
-    emit(SearchInitial());
+    emit(const SearchInitial());
   }
 
   @override

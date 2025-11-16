@@ -35,13 +35,12 @@ class MovieCard extends StatelessWidget {
             Expanded(
               child: Stack(
                 children: [
-              
                   CachedMoviePoster(
                     imageUrl: movie.posterUrl,
                     width: width,
                     height: height,
                   ),
-                  
+
                   if (movie.voteAverage != null && movie.voteAverage! > 8.0)
                     Positioned(
                       top: SizeConstants.spaceXS,
@@ -49,13 +48,14 @@ class MovieCard extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: SizeConstants.spaceXXS,
-                          vertical: SizeConstants.spaceZero,
                         ),
                         decoration: BoxDecoration(
                           color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(SizeConstants.radiusXS),
+                          borderRadius: BorderRadius.circular(
+                            SizeConstants.radiusXS,
+                          ),
                         ),
-                        child: Text(
+                        child: const Text(
                           AppTexts.top10,
                           style: TextStyle(
                             color: AppColors.textPrimary,
@@ -71,7 +71,7 @@ class MovieCard extends StatelessWidget {
             const SizedBox(height: SizeConstants.spaceS),
             Text(
               movie.title ?? AppTexts.unknownTitle,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppColors.textPrimary,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -83,15 +83,16 @@ class MovieCard extends StatelessWidget {
               const SizedBox(height: SizeConstants.spaceXS),
               Row(
                 children: [
-                  Icon(
-                    Icons.star, 
-                    color: Colors.yellow, 
-                    size: SizeConstants.iconSizeXS
+                  const Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                    size: SizeConstants.iconSizeXS,
                   ),
                   const SizedBox(width: SizeConstants.spaceXS),
                   Text(
-                    movie.voteAverage?.toStringAsFixed(1) ?? AppTexts.notAvailable,
-                    style: TextStyle(
+                    movie.voteAverage?.toStringAsFixed(1) ??
+                        AppTexts.notAvailable,
+                    style: const TextStyle(
                       color: AppColors.textSecondary,
                       fontSize: 10,
                     ),
@@ -110,11 +111,7 @@ class MovieCardShimmer extends StatelessWidget {
   final double width;
   final double height;
 
-  const MovieCardShimmer({
-    super.key,
-    this.width = 120,
-    this.height = 180,
-  });
+  const MovieCardShimmer({super.key, this.width = 120, this.height = 180});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movieapp/core/config/environment.dart';
 import 'package:movieapp/core/config/environment_detector.dart';
-import 'package:movieapp/core/database/database_manager.dart';
 import 'package:movieapp/core/di/service_locator.dart';
 import 'package:movieapp/core/router/router_config.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_bloc.dart';
@@ -16,15 +15,14 @@ import 'package:movieapp/features/trending_movies/presentation/bloc/trending_mov
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
+   ServiceLocator.init();
 
-  await Future.wait([
-    DatabaseManager.init(),
-    dotenv.load(fileName: '.env'),
-    ServiceLocator.init(),
-  ]);
+  final environmentDetector = EnvironmentDetector();
+  final environment = environmentDetector.environment;
 
-  final env = EnvironmentDetector.detectEnvironment();
-  AppEnvironment.setEnvironment(env);
+  final appEnv = AppEnvironment();
+  appEnv.setEnvironment(environment);
 
   runApp(const MovieApp());
 }
@@ -50,7 +48,7 @@ class MovieApp extends StatelessWidget {
           create: (context) => sl<BookmarkBloc>()..add(LoadBookmarks()),
         ),
 
-        BlocProvider(create:(context) => sl<SearchBloc>())
+        BlocProvider(create: (context) => sl<SearchBloc>()),
       ],
       child: MaterialApp.router(
         routerConfig: routerConfig,

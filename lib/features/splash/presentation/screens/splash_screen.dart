@@ -42,14 +42,14 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: FadeTransition(
         opacity: _fadeAnimation,
-        child: Center(
+        child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // App logo
               Icon(Icons.movie_filter, color: Colors.redAccent, size: 100),
-              const SizedBox(height: 20),
-              const Text(
+              SizedBox(height: 20),
+              Text(
                 'Movie App',
                 style: TextStyle(
                   color: Colors.white,

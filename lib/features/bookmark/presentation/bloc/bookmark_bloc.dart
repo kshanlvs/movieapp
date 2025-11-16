@@ -67,8 +67,7 @@ class BookmarkBloc extends Bloc<BookmarkEvent, BookmarkState> {
       final bookmarks = await repository.getBookmarkedMovies();
       emit(BookmarkLoaded(bookmarks: bookmarks));
     } catch (e) {
-      //Todo: handle catch 
-      
+      //Todo: handle catch
     }
   }
 }

@@ -34,7 +34,7 @@ class CachedMovieImage extends StatelessWidget {
         height: height,
         fit: fit,
         cacheManager: MovieCacheManager(),
-        placeholder: (context, url) => showShimmer 
+        placeholder: (context, url) => showShimmer
             ? _buildShimmerPlaceholder()
             : _buildSimplePlaceholder(),
         errorWidget: (context, url, error) => _buildErrorWidget(),
@@ -44,52 +44,49 @@ class CachedMovieImage extends StatelessWidget {
     );
   }
 
-Widget _buildShimmerPlaceholder() {
-  return Shimmer.fromColors(
-    baseColor: AppColors.shimmerBase,
-    highlightColor: AppColors.shimmerHighlight,
-    child: Container(
+  Widget _buildShimmerPlaceholder() {
+    return Shimmer.fromColors(
+      baseColor: AppColors.shimmerBase,
+      highlightColor: AppColors.shimmerHighlight,
+      child: Container(
+        width: width,
+        height: height,
+        color: AppColors.placeholderBackground,
+      ),
+    );
+  }
+
+  Widget _buildSimplePlaceholder() {
+    return Container(
       width: width,
       height: height,
       color: AppColors.placeholderBackground,
-    ),
-  );
-}
-
-Widget _buildSimplePlaceholder() {
-  return Container(
-    width: width,
-    height: height,
-    color: AppColors.placeholderBackground,
-    child: Center(
-      child: CircularProgressIndicator(
-        color: AppColors.primary,
-        strokeWidth: SizeConstants.borderWidthS,
+      child: const Center(
+        child: CircularProgressIndicator(
+          color: AppColors.primary,
+          strokeWidth: SizeConstants.borderWidthS,
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildErrorWidget() {
     return Container(
       width: width,
       height: height,
       color: Colors.grey[800],
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.error_outline, 
-            color: AppColors.textSecondary, 
-            size: SizeConstants.iconSizeL
+            Icons.error_outline,
+            color: AppColors.textSecondary,
+            size: SizeConstants.iconSizeL,
           ),
-          const SizedBox(height: SizeConstants.spaceS),
+          SizedBox(height: SizeConstants.spaceS),
           Text(
             AppTexts.failedToLoad,
-            style: TextStyle(
-              color: AppColors.textSecondary,
-              fontSize: 10,
-            ),
+            style: TextStyle(color: AppColors.textSecondary, fontSize: 10),
           ),
         ],
       ),

@@ -20,11 +20,7 @@ class SearchRepositoryImpl implements SearchRepository {
 
     final response = await networkClient.get(
       '/search/movie',
-      queryParameters: {
-        'query': query,
-        'page': page,
-        'include_adult': false,
-      },
+      queryParameters: {'query': query, 'page': page, 'include_adult': false},
     );
 
     return SearchResponseModel.fromJson(response.json);

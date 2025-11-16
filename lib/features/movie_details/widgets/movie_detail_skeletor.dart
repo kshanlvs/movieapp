@@ -49,63 +49,50 @@ class MovieDetailSkeleton extends StatelessWidget {
   Widget _buildActionButtonsSkeleton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(4, (index) => Column(
-        children: [
-          Container(
-            width: SizeConstants.iconSizeXXXL,
-            height: SizeConstants.iconSizeXXXL,
-            decoration: BoxDecoration(
-              color: AppColors.background,
-              shape: BoxShape.circle,
+      children: List.generate(
+        4,
+        (index) => Column(
+          children: [
+            Container(
+              width: SizeConstants.iconSizeXXXL,
+              height: SizeConstants.iconSizeXXXL,
+              decoration: const BoxDecoration(
+                color: AppColors.background,
+                shape: BoxShape.circle,
+              ),
             ),
-          ),
-          const SizedBox(height: SizeConstants.spaceXS),
-          Container(
-            height: 12,
-            width: 40,
-            color: AppColors.background,
-          ),
-        ],
-      )),
+            const SizedBox(height: SizeConstants.spaceXS),
+            Container(height: 12, width: 40, color: AppColors.background),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildTitleSkeleton() {
-    return Container(
-      height: 28, 
-      width: 220, 
-      color: AppColors.background
-    );
+    return Container(height: 28, width: 220, color: AppColors.background);
   }
 
   Widget _buildRatingSkeleton() {
-    return Container(
-      height: 20, 
-      width: 80, 
-      color: AppColors.background
-    );
+    return Container(height: 20, width: 80, color: AppColors.background);
   }
 
   Widget _buildOverviewSkeleton() {
     return Column(
       children: [
         Container(
-          height: 16, 
-          width: double.infinity, 
-          color: AppColors.background
+          height: 16,
+          width: double.infinity,
+          color: AppColors.background,
         ),
         const SizedBox(height: SizeConstants.spaceM),
         Container(
-          height: 16, 
-          width: double.infinity, 
-          color: AppColors.background
+          height: 16,
+          width: double.infinity,
+          color: AppColors.background,
         ),
         const SizedBox(height: SizeConstants.spaceM),
-        Container(
-          height: 16, 
-          width: 200, 
-          color: AppColors.background
-        ),
+        Container(height: 16, width: 200, color: AppColors.background),
       ],
     );
   }
@@ -113,14 +100,17 @@ class MovieDetailSkeleton extends StatelessWidget {
   Widget _buildGenresSkeleton() {
     return Wrap(
       spacing: SizeConstants.spaceS,
-      children: List.generate(3, (index) => Container(
-        width: 70,
-        height: SizeConstants.buttonHeightXS,
-        decoration: BoxDecoration(
-          color: AppColors.background,
-          borderRadius: BorderRadius.circular(SizeConstants.radiusCircle),
+      children: List.generate(
+        3,
+        (index) => Container(
+          width: 70,
+          height: SizeConstants.buttonHeightXS,
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.circular(SizeConstants.radiusCircle),
+          ),
         ),
-      )),
+      ),
     );
   }
 }

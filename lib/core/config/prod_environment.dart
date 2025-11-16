@@ -1,5 +1,5 @@
-import 'environment.dart';
-import 'environment_type.dart';
+import 'package:movieapp/core/config/environment.dart';
+import 'package:movieapp/core/config/environment_type.dart';
 
 class ProdEnvironment implements Environment {
   @override

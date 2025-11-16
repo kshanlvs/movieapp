@@ -1,4 +1,4 @@
-import 'environment_type.dart';
+import 'package:movieapp/core/config/environment_type.dart';
 
 abstract class Environment {
   EnvironmentType get type;
@@ -10,17 +10,21 @@ abstract class Environment {
 }
 
 class AppEnvironment {
-  static late Environment _environment;
+  static final AppEnvironment _instance = AppEnvironment._internal();
+  factory AppEnvironment() => _instance;
+  AppEnvironment._internal();
 
-  static Environment get current => _environment;
+  late Environment _environment;
 
-  static EnvironmentType get currentType => _environment.type;
+  Environment get current => _environment;
 
-  static void setEnvironment(Environment env) {
+  EnvironmentType get currentType => _environment.type;
+
+  void setEnvironment(Environment env) {
     _environment = env;
   }
 
-  static bool get isDevelopment => currentType.isDevelopment;
-  static bool get isStaging => currentType.isStaging;
-  static bool get isProduction => currentType.isProduction;
+  bool get isDevelopment => currentType.isDevelopment;
+  bool get isStaging => currentType.isStaging;
+  bool get isProduction => currentType.isProduction;
 }

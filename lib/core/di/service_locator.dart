@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:movieapp/core/config/environment.dart';
 import 'package:movieapp/core/config/environment_detector.dart';
+import 'package:movieapp/core/config/environment_factory.dart';
+import 'package:movieapp/core/database/database_manager.dart';
 import 'package:movieapp/core/network/cached_network_client.dart';
 import 'package:movieapp/core/network/dio_network_client.dart';
 import 'package:movieapp/core/network/network_client.dart';
@@ -17,15 +19,31 @@ class ServiceLocator {
   ServiceLocator._();
 
   static Future<void> init() async {
+    await _instance._registerDatabase();
     await _instance._registerEnvironment();
     await _instance._registerNetworkInfrastructure();
     await _instance._registerNetworkClient();
     await _instance._registerMovieFeature();
   }
 
+  Future<void> _registerDatabase() async {
+  final databaseManager = DatabaseManager();
+  await databaseManager.init();
+  sl.registerLazySingleton<DatabaseManager>(() => databaseManager);
+}
+
   Future<void> _registerEnvironment() async {
-    final environment = EnvironmentDetector.detectEnvironment();
+    final environmentFactory = EnvironmentFactory();
+    final environmentDetector = EnvironmentDetector(
+      factory: environmentFactory,
+    );
+    final environment = environmentDetector.environment;
+
+    sl.registerLazySingleton<EnvironmentFactory>(() => environmentFactory);
+    sl.registerLazySingleton<EnvironmentDetector>(() => environmentDetector);
     sl.registerLazySingleton<Environment>(() => environment);
+
+    environmentDetector.printEnvironmentInfo(environment);
   }
 
   Future<void> _registerNetworkInfrastructure() async {

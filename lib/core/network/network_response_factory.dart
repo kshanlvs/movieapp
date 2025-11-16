@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'network_client.dart';
+import 'package:movieapp/core/network/network_client.dart';
 
 abstract class NetworkResponseFactory {
   NetworkResponse createFromDioResponse(Response response);

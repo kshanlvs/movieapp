@@ -18,7 +18,7 @@ enum ImageSize {
 abstract class ImageUrlGenerator {
   String generatePosterUrl(String? posterPath, ImageSize size);
   String generateBackdropUrl(String? backdropPath, ImageSize size);
-} 
+}
 
 class TmdbImageUrlGenerator implements ImageUrlGenerator {
   const TmdbImageUrlGenerator();

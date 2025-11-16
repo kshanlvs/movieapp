@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
@@ -22,9 +24,9 @@ class MovieDetailErrorWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.error_outline, 
-              size: SizeConstants.iconSizeXXL, 
-              color: AppColors.primary.withOpacity(0.7)
+              Icons.error_outline,
+              size: SizeConstants.iconSizeXXL,
+              color: AppColors.primary.withOpacity(0.7),
             ),
             const SizedBox(height: SizeConstants.spaceXXL),
             const Text(
@@ -52,8 +54,8 @@ class MovieDetailErrorWidget extends StatelessWidget {
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.textPrimary,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: SizeConstants.paddingXXL, 
-                  vertical: SizeConstants.paddingM
+                  horizontal: SizeConstants.paddingXXL,
+                  vertical: SizeConstants.paddingM,
                 ),
               ),
               child: const Text(AppTexts.retry),

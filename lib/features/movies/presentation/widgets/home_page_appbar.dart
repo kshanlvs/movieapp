@@ -33,7 +33,7 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
 
   void _onScroll() {
     final newOpacity = (widget.scrollController.offset / 100).clamp(0.0, 1.0);
-    
+
     if (_opacity != newOpacity) {
       setState(() {
         _opacity = newOpacity;
@@ -48,7 +48,7 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
       elevation: _opacity > 0.1 ? SizeConstants.appBarElevation : 0,
       title: Row(
         children: [
-          Text(
+          const Text(
             AppTexts.appName,
             style: TextStyle(
               color: AppColors.primary,
@@ -58,16 +58,16 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
           ),
           const Spacer(),
           IconButton(
-            icon: Icon(
-              Icons.bookmark, 
+            icon: const Icon(
+              Icons.bookmark,
               color: AppColors.textPrimary,
               size: SizeConstants.iconSizeM,
             ),
             onPressed: widget.onBookmarkPressed,
           ),
           IconButton(
-            icon: Icon(
-              Icons.search, 
+            icon: const Icon(
+              Icons.search,
               color: AppColors.textPrimary,
               size: SizeConstants.iconSizeM,
             ),

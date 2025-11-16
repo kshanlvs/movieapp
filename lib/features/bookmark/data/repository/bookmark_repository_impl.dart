@@ -78,5 +78,6 @@ class BookmarkException implements Exception {
 
   @override
   String toString() =>
-      'BookmarkException: $message${underlyingError != null ? ' (Caused by: $underlyingError)' : ''}';
+      'BookmarkException: $message${underlyingError != null ? 
+      ' (Caused by: $underlyingError)' : ''}';
 }

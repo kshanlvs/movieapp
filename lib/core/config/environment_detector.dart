@@ -1,12 +1,18 @@
 import 'package:flutter/foundation.dart';
-
-import 'environment_type.dart';
-import 'environment_factory.dart';
-import 'environment.dart';
+import 'package:movieapp/core/config/environment_type.dart';
+import 'package:movieapp/core/config/environment_factory.dart';
+import 'package:movieapp/core/config/environment.dart';
 
 class EnvironmentDetector {
-  static Environment detectEnvironment() {
-    final dartDefineEnv = _getFromDartDefines();
+  final Environment _environment;
+
+  EnvironmentDetector({EnvironmentFactory? factory})
+    : _environment = _detectEnvironment(factory ?? EnvironmentFactory());
+
+  Environment get environment => _environment;
+
+  static Environment _detectEnvironment(EnvironmentFactory factory) {
+    final dartDefineEnv = _getFromDartDefines(factory);
     if (dartDefineEnv != null) {
       if (kDebugMode) {
         print(
@@ -21,14 +27,14 @@ class EnvironmentDetector {
         'No environment specified via --dart-define, defaulting to Development',
       );
     }
-    return EnvironmentFactory.createEnvironment(EnvironmentType.development);
+    return factory.createEnvironment(EnvironmentType.development);
   }
 
-  static Environment? _getFromDartDefines() {
+  static Environment? _getFromDartDefines(EnvironmentFactory factory) {
     try {
       const dartDefine = String.fromEnvironment('ENVIRONMENT');
       if (dartDefine.isNotEmpty) {
-        return EnvironmentFactory.createFromString(dartDefine);
+        return factory.createFromString(dartDefine);
       }
     } catch (e) {
       if (kDebugMode) {
@@ -38,8 +44,7 @@ class EnvironmentDetector {
     return null;
   }
 
-  static void printEnvironmentInfo() {
-    final env = AppEnvironment.current;
+  void printEnvironmentInfo(Environment env) {
     if (kDebugMode) {
       print('''
   Movie App Environment Info:
@@ -54,7 +59,7 @@ class EnvironmentDetector {
     }
   }
 
-  static String _maskApiKey(String apiKey) {
+  String _maskApiKey(String apiKey) {
     if (apiKey.length <= 8) return '***';
     return '${apiKey.substring(0, 3)}...${apiKey.substring(apiKey.length - 3)}';
   }
