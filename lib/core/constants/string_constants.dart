@@ -1,28 +1,22 @@
 class AppTexts {
-  // App Name
-  static const String appName = 'Movie Flix';
+  static const String appName = 'Movie App';
 
-  // Splash Screen
   static const String splashTitle = 'Welcome to CineStream';
   static const String splashSubtitle = 'Explore top movies, TV shows, and more';
 
-  // Home Screen
   static const String popularMovies = 'Popular Movies';
   static const String topRated = 'Top Rated';
   static const String upcoming = 'Upcoming';
   static const String seeAll = 'See All';
   static const String play = "Play";
 
-  // Movie Details
   static const String overview = 'Overview';
   static const String releaseDate = 'Release Date';
   static const String rating = 'Rating';
 
-  // General
   static const String retry = 'Retry';
   static const String noData = 'No Data Available';
   static const String share = "Share";
-  // Add to your AppTexts class
   static const String myList = 'My List';
   static const String like = 'Like';
   static const String save = 'Save';
@@ -46,8 +40,6 @@ class AppTexts {
   static const String popularOnApp = 'Popular on MovieApp';
   static const String noBookmarksYet = 'No bookmarks yet\nTap to save movies';
   static const String popularComingSoon = 'Popular\n(Coming Soon)';
-
-  // Search Page
   static const String searchMovies = 'Search Movies';
   static const String searchForMovies = 'Search for movies';
   static const String typeToFindMovies = 'Type to find your favorite movies';
