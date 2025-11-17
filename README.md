@@ -1,16 +1,28 @@
-# movieapp
+# MovieApp
 
-A new Flutter project.
+A Flutter movie application that displays trending and now-playing movies using TMDB API with offline support and smart search functionality.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Browse trending and now-playing movies
+- Search movies with real-time results
+- Bookmark favorite movies
+- Offline support with local database
+- Movie details with ratings and overview
+- Share movies with deep links
+- Cross-platform (Android & iOS)
 
-A few resources to get you started if this is your first Flutter project:
+## Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter & Dart
+- BLoC for state management
+- Dio for networking
+- Hive for local database
+- Go Router for navigation
+- Clean Architecture + Repository Pattern
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Setup
+
+1. Get Flutter dependencies:
+```bash
+flutter pub get
