@@ -16,7 +16,6 @@ final GoRouter routerConfig = GoRouter(
           key: state.pageKey,
           child: const SplashScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Fade + scale for splash
             return FadeTransition(
               opacity: animation,
               child: ScaleTransition(
@@ -39,7 +38,6 @@ final GoRouter routerConfig = GoRouter(
           key: state.pageKey,
           child: const MovieHomePage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Slide from bottom for home
             const begin = Offset(0.0, 1.0);
             const end = Offset.zero;
             const curve = Curves.easeInOutQuart;

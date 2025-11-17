@@ -19,8 +19,13 @@ class TextStyles {
     fontSize: FontSizes.bodyMedium,
   );
 
+  static const TextStyle errorTitle = TextStyle(
+    color: AppColors.primary,
+    fontSize: FontSizes.titleLarge,
+  );
+
   static const TextStyle searchErrorTitle = TextStyle(
-    color: AppColors.textPrimary,
+    color: AppColors.textSecondary,
     fontSize: FontSizes.titleLarge,
   );
 

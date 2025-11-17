@@ -6,6 +6,7 @@ import 'package:movieapp/core/constants/app_radius.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
 import 'package:movieapp/core/constants/text_style_constants.dart';
+import 'package:movieapp/core/widget/error_retry_widget.dart';
 import 'package:movieapp/features/movies/data/model/movie_model.dart';
 import 'package:movieapp/features/movies/presentation/widgets/cached_movie_image.dart';
 import 'package:movieapp/features/search/presentation/bloc/search_bloc.dart';
@@ -189,40 +190,13 @@ class _SearchPageContent extends StatelessWidget {
   }
 
   Widget _buildErrorState(String message, BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error_outline,
-            size: AppSizes.s32,
-            color: AppColors.primary,
-          ),
-          SizedBox(height: AppSizes.s16),
-          const Text(AppTexts.searchFailed, style: TextStyles.searchErrorTitle),
-          SizedBox(height: AppSizes.s8),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSizes.s32),
-            child: Text(
-              message,
-              style: TextStyles.searchErrorMessage,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          SizedBox(height: AppSizes.s16),
-          ElevatedButton(
-            onPressed: () {
-              context.read<SearchBloc>().add(const SearchClear());
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: AppColors.textPrimary,
-            ),
-            child: const Text(AppTexts.retry),
-          ),
-        ],
-      ),
-    );
+      return ErrorRetryWidget(
+    title: AppTexts.searchFailed,
+    message: message,
+    onRetry: () {
+      context.read<SearchBloc>().add(const SearchQueryChanged(''));
+    },
+  );
   }
 }
 

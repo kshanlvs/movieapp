@@ -24,14 +24,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       emit(const SearchInitial());
       return;
     }
-
-    // ✅ PREVENT UNNECESSARY SEARCHES
     if (event.query == _lastQuery) return;
     _lastQuery = event.query;
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () {
       if (event.query.length >= 2) {
-        // Only search meaningful queries
         add(_PerformSearchEvent(query: event.query));
       }
     });

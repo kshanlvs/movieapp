@@ -82,6 +82,8 @@ class _MovieHomePageState extends State<MovieHomePage> {
       BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
         builder: (context, state) {
           return HeroSection(
+            error: state.error.isNotEmpty && state.movies.isEmpty 
+            ? state.error : null,
             movie: state.movies.isNotEmpty ? state.movies.first : null,
             isLoading: state.isLoading && state.movies.isEmpty,
           );

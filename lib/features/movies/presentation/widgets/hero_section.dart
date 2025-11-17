@@ -11,13 +11,23 @@ import 'package:movieapp/features/movies/data/model/movie_model.dart';
 class HeroSection extends StatelessWidget {
   final MovieModel? movie;
   final bool isLoading;
+  final String? error;
 
-  const HeroSection({super.key, this.movie, this.isLoading = false});
+  const HeroSection({
+    super.key,
+    this.movie,
+    this.isLoading = false,
+    this.error,
+  });
 
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
       return const HeroSectionShimmer();
+    }
+
+    if (error != null && error!.isNotEmpty) {
+      return _buildErrorPlaceholder();
     }
 
     if (movie == null) {
@@ -87,6 +97,42 @@ class HeroSection extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildErrorPlaceholder() {
+    return SliverToBoxAdapter(
+      child: Container(
+        height: AppSizes.s320,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.surfaceVariant.withOpacity(0.8),
+              AppColors.background,
+            ],
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.all(AppSizes.s20),
+              decoration: BoxDecoration(
+                color: AppColors.surface.withOpacity(0.5),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.error_outline,
+                color: AppColors.textSecondary,
+                size: AppSizes.s40,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

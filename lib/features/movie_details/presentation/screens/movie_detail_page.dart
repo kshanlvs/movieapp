@@ -7,6 +7,7 @@ import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
 import 'package:movieapp/core/constants/text_style_constants.dart';
 import 'package:movieapp/core/deeplink/deep_link_service.dart';
+import 'package:movieapp/core/widget/error_retry_widget.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_bloc.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_event.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_state.dart';
@@ -185,25 +186,10 @@ class _MovieDetailPageState extends State<MovieDetailPage>
                 );
 
               case MovieDetailError(:final message):
-                return Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(AppSizes.s20),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          message,
-                          style: TextStyles.primaryButton,
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: AppSizes.s12),
-                        OutlinedButton(
-                          onPressed: _loadData,
-                          child: const Text('Retry'),
-                        ),
-                      ],
-                    ),
-                  ),
+                return ErrorRetryWidget(
+                  title: 'Retry',
+                  message: message,
+                  onRetry: _loadData,
                 );
 
               default:
