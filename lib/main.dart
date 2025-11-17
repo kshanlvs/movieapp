@@ -7,7 +7,6 @@ import 'package:movieapp/core/config/environment_detector.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
 import 'package:movieapp/core/constants/font_size_constants.dart';
 import 'package:movieapp/core/constants/text_style_constants.dart';
-
 import 'package:movieapp/core/di/service_locator.dart';
 import 'package:movieapp/core/router/router_config.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_bloc.dart';
@@ -38,7 +37,7 @@ class ScreenUtilWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(390, 844), // your design size
+      designSize: const Size(390, 844),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, __) => const MovieApp(),
@@ -81,7 +80,6 @@ class MovieApp extends StatelessWidget {
             iconTheme: IconThemeData(color: AppColors.textPrimary),
           ),
           textTheme: const TextTheme(
-            // Headline Text Styles
             headlineLarge: TextStyle(
               color: AppColors.textPrimary,
               fontSize: FontSizes.headlineLarge,
@@ -97,8 +95,6 @@ class MovieApp extends StatelessWidget {
               fontSize: FontSizes.headlineSmall,
               fontWeight: FontWeight.bold,
             ),
-
-            // Title Text Styles
             titleLarge: TextStyle(
               color: AppColors.textPrimary,
               fontSize: FontSizes.titleLarge,
@@ -114,8 +110,6 @@ class MovieApp extends StatelessWidget {
               fontSize: FontSizes.titleSmall,
               fontWeight: FontWeight.w600,
             ),
-
-            // Body Text Styles
             bodyLarge: TextStyle(
               color: AppColors.textPrimary,
               fontSize: FontSizes.bodyLarge,
@@ -131,8 +125,6 @@ class MovieApp extends StatelessWidget {
               fontSize: FontSizes.bodySmall,
               fontWeight: FontWeight.normal,
             ),
-
-            // Label Text Styles
             labelLarge: TextStyle(
               color: AppColors.textPrimary,
               fontSize: FontSizes.labelLarge,
@@ -148,8 +140,6 @@ class MovieApp extends StatelessWidget {
               fontSize: FontSizes.labelSmall,
               fontWeight: FontWeight.w500,
             ),
-
-            // Display Text Styles
             displayLarge: TextStyle(
               color: AppColors.textPrimary,
               fontSize: FontSizes.displayLarge,
@@ -166,7 +156,6 @@ class MovieApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          // Button Theme
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
@@ -178,7 +167,6 @@ class MovieApp extends StatelessWidget {
               ),
             ),
           ),
-          // Input Decoration Theme
           inputDecorationTheme: InputDecorationTheme(
             filled: true,
             fillColor: AppColors.surfaceVariant,
@@ -197,7 +185,6 @@ class MovieApp extends StatelessWidget {
               vertical: 12,
             ),
           ),
-          // Card Theme
           cardTheme: CardThemeData(
             color: AppColors.surface,
             elevation: 0,
@@ -206,7 +193,6 @@ class MovieApp extends StatelessWidget {
               side: const BorderSide(color: AppColors.outline),
             ),
           ),
-          // Dialog Theme
           dialogTheme: DialogThemeData(
             backgroundColor: AppColors.surface,
             shape: RoundedRectangleBorder(
