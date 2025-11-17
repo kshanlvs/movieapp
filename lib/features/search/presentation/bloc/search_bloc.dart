@@ -7,13 +7,13 @@ import 'package:movieapp/features/search/presentation/bloc/search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchRepository searchRepository;
   Timer? _debounceTimer;
+  String _lastQuery = '';
 
   SearchBloc({required this.searchRepository}) : super(const SearchInitial()) {
     on<SearchQueryChanged>(_onSearchQueryChanged);
     on<SearchClear>(_onSearchClear);
     on<_PerformSearchEvent>(_onPerformSearch);
   }
-
   void _onSearchQueryChanged(
     SearchQueryChanged event,
     Emitter<SearchState> emit,
@@ -25,11 +25,15 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       return;
     }
 
-    if (state is! SearchLoaded ||
-        (state as SearchLoaded).query != event.query) {}
+    // ✅ PREVENT UNNECESSARY SEARCHES
+    if (event.query == _lastQuery) return;
+    _lastQuery = event.query;
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () {
-      add(_PerformSearchEvent(query: event.query));
+      if (event.query.length >= 2) {
+        // Only search meaningful queries
+        add(_PerformSearchEvent(query: event.query));
+      }
     });
   }
 

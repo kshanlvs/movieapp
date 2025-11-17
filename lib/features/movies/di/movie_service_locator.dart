@@ -6,6 +6,7 @@ import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_bloc.dart'
 import 'package:movieapp/features/movie_details/data/repository/movie_detail_repository.dart';
 import 'package:movieapp/features/movie_details/data/repository/movie_detail_repository_impl.dart';
 import 'package:movieapp/features/movie_details/presentation/bloc/movie_detail_bloc.dart';
+
 import 'package:movieapp/features/movies/data/repository/movie_cache_repository_impl.dart';
 import 'package:movieapp/features/movies/data/repository/movies_cache_repository.dart';
 import 'package:movieapp/features/now_playing_movies/data/repository/now_playing_repository.dart';
@@ -20,7 +21,7 @@ import 'package:movieapp/features/trending_movies/presentation/bloc/trending_mov
 
 class MovieServiceLocator {
   static Future<void> init() async {
-    // Repositories - Singletons
+ 
     sl.registerLazySingleton<MovieCacheRepository>(
       () => MovieCacheRepositoryImpl(),
     );
@@ -38,7 +39,6 @@ class MovieServiceLocator {
     );
 
     sl.registerLazySingleton<BookmarkRepository>(
-      // ✅ Fixed to singleton
       () => BookmarkRepositoryImpl(cacheRepository: sl<MovieCacheRepository>()),
     );
 
@@ -46,7 +46,6 @@ class MovieServiceLocator {
       () => SearchRepositoryImpl(networkClient: sl<NetworkClient>()),
     );
 
-    // BLoCs - Factories
     sl.registerFactory<MovieDetailBloc>(
       () => MovieDetailBloc(repository: sl<MovieDetailsRepository>()),
     );
@@ -56,7 +55,6 @@ class MovieServiceLocator {
     );
 
     sl.registerFactory<SearchBloc>(
-      // ✅ Added Search BLoC
       () => SearchBloc(searchRepository: sl<SearchRepository>()),
     );
 

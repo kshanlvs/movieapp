@@ -1,9 +1,8 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
+import 'package:movieapp/core/constants/text_style_constants.dart';
 
 class MovieDetailErrorWidget extends StatelessWidget {
   final String message;
@@ -19,43 +18,35 @@ class MovieDetailErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(SizeConstants.spaceXXL),
+        padding: EdgeInsets.all(AppSizes.s24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.error_outline,
-              size: SizeConstants.iconSizeXXL,
+              size: AppSizes.s32,
               color: AppColors.primary.withOpacity(0.7),
             ),
-            const SizedBox(height: SizeConstants.spaceXXL),
+            SizedBox(height: AppSizes.s24),
             const Text(
-              'Failed to load movie details',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
+              AppTexts.failedToLoadMovieDetails,
+              style: TextStyles.searchErrorTitle,
             ),
-            const SizedBox(height: SizeConstants.spaceM),
+            SizedBox(height: AppSizes.s12),
             Text(
               message,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
-                fontSize: 14,
-                height: 1.4,
-              ),
+              style: TextStyles.searchErrorMessage,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: SizeConstants.spaceXXL),
+            SizedBox(height: AppSizes.s24),
             ElevatedButton(
               onPressed: onRetry,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.textPrimary,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: SizeConstants.paddingXXL,
-                  vertical: SizeConstants.paddingM,
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSizes.s24,
+                  vertical: AppSizes.s12,
                 ),
               ),
               child: const Text(AppTexts.retry),

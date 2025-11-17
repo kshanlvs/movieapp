@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/app_radius.dart';
+import 'package:movieapp/core/constants/font_size_constants.dart';
 import 'package:movieapp/core/constants/route_constants.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
+import 'package:movieapp/core/constants/text_style_constants.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_bloc.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_event.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_state.dart';
@@ -122,19 +125,17 @@ class _MovieHomePageState extends State<MovieHomePage> {
         },
       ),
 
-      const SliverToBoxAdapter(
-        child: SizedBox(height: SizeConstants.spaceXXXXL),
-      ),
+      SliverToBoxAdapter(child: SizedBox(height: AppSizes.s48)),
     ];
   }
 
   Widget _buildSectionHeader(String title, {VoidCallback? onSeeAll}) {
     return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(
-        SizeConstants.pagePadding,
-        SizeConstants.spaceXXL,
-        SizeConstants.pagePadding,
-        SizeConstants.spaceS,
+      padding: EdgeInsets.fromLTRB(
+        AppSizes.s16,
+        AppSizes.s24,
+        AppSizes.s16,
+        AppSizes.s8,
       ),
       sliver: SliverToBoxAdapter(
         child: Row(
@@ -143,7 +144,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
               title,
               style: const TextStyle(
                 color: AppColors.textPrimary,
-                fontSize: 20,
+                fontSize: FontSizes.headlineSmall,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -155,7 +156,7 @@ class _MovieHomePageState extends State<MovieHomePage> {
                   AppTexts.seeAll,
                   style: TextStyle(
                     color: AppColors.textSecondary,
-                    fontSize: 14,
+                    fontSize: FontSizes.bodyMedium,
                   ),
                 ),
               ),
@@ -180,21 +181,19 @@ class _MovieHomePageState extends State<MovieHomePage> {
   Widget _buildBookmarkedLoading() {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: SizeConstants.movieListSectionHeight,
+        height: AppSizes.s200,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: SizeConstants.pagePadding,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
           itemCount: 3,
           itemBuilder: (context, index) {
             return Container(
-              width: SizeConstants.movieCardWidth,
-              margin: const EdgeInsets.only(right: SizeConstants.spaceS),
+              width: AppSizes.s120,
+              margin: EdgeInsets.only(right: AppSizes.s8),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(SizeConstants.radiusS),
-                color: Colors.grey[800],
+                borderRadius: BorderRadius.circular(AppRadius.r8),
+                color: AppColors.surfaceVariant,
               ),
               child: const Center(
                 child: CircularProgressIndicator(color: AppColors.primary),
@@ -215,49 +214,45 @@ class _MovieHomePageState extends State<MovieHomePage> {
 
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: SizeConstants.bookMarkSectionHeight,
+        height: AppSizes.s320, // increased height
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: SizeConstants.pagePadding,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
           itemCount: displayBookmarks.length,
+          addAutomaticKeepAlives: false,
+          addRepaintBoundaries: false,
+          cacheExtent: 500,
           itemBuilder: (context, index) {
             final movie = displayBookmarks[index];
             return GestureDetector(
               onTap: () => context.push('/movie/${movie.id}'),
               child: Container(
-                width: SizeConstants.bookmarkCardWidth,
-                margin: const EdgeInsets.only(right: SizeConstants.spaceS),
-                child: Stack(
-                  children: [
-                    if (movie.posterPath != null)
-                      CachedMoviePoster(
-                        imageUrl: movie.posterUrlLarge,
-                        width: SizeConstants.bookmarkCardWidth,
-                        height: SizeConstants.bookMarkSectionHeight,
-                        fit: BoxFit.fitHeight,
-                      )
-                    else
-                      Container(
-                        width: SizeConstants.movieCardWidth,
-                        height: SizeConstants.movieListSectionHeight,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            SizeConstants.radiusS,
+                width: AppSizes.s180,
+                margin: EdgeInsets.only(right: AppSizes.s12),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(AppRadius.r12),
+                  child: movie.posterPath != null
+                      ? CachedMoviePoster(
+                          imageUrl: movie.posterUrlLarge,
+                          width: AppSizes.s180,
+                          height: AppSizes.s220,
+                        )
+                      : Container(
+                          width: AppSizes.s180,
+                          height: AppSizes.s220,
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceVariant,
+                            borderRadius: BorderRadius.circular(AppRadius.r12),
                           ),
-                          color: Colors.grey[800],
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.movie,
-                            color: AppColors.textSecondary,
-                            size: SizeConstants.iconSizeXL,
+                          child: Center(
+                            child: Icon(
+                              Icons.movie,
+                              color: AppColors.textSecondary,
+                              size: AppSizes.s32,
+                            ),
                           ),
                         ),
-                      ),
-                  ],
                 ),
               ),
             );
@@ -270,42 +265,37 @@ class _MovieHomePageState extends State<MovieHomePage> {
   Widget _buildBookmarkedEmpty() {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: SizeConstants.movieListSectionHeight,
+        height: AppSizes.s200,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: SizeConstants.pagePadding,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
           itemCount: 1,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () => context.push('/saved'),
               child: Container(
-                width: SizeConstants.bookmarkEmptyCardWidth,
-                margin: const EdgeInsets.only(right: SizeConstants.spaceS),
+                width: AppSizes.s160,
+                margin: EdgeInsets.only(right: AppSizes.s8),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(SizeConstants.radiusS),
-                  color: Colors.grey[800],
-                  border: Border.all(color: Colors.grey[600]!),
+                  borderRadius: BorderRadius.circular(AppRadius.r8),
+                  color: AppColors.surfaceVariant,
+                  border: Border.all(color: AppColors.outline),
                 ),
-                child: const Center(
+                child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         Icons.bookmark_border,
-                        size: SizeConstants.iconSizeXL,
+                        size: AppSizes.s28,
                         color: AppColors.textSecondary,
                       ),
-                      SizedBox(height: SizeConstants.spaceS),
-                      Text(
+                      SizedBox(height: AppSizes.s8),
+                      const Text(
                         AppTexts.noBookmarksYet,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 14,
-                        ),
+                        style: TextStyles.searchInitialSubtitle,
                       ),
                     ],
                   ),

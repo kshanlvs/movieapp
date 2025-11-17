@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/app_radius.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
+import 'package:movieapp/core/constants/text_style_constants.dart';
 import 'package:movieapp/features/movies/data/model/movie_model.dart';
 import 'package:movieapp/features/movies/presentation/widgets/cached_movie_image.dart';
 import 'package:movieapp/features/search/presentation/bloc/search_bloc.dart';
@@ -28,15 +30,9 @@ class _SearchPageContent extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text(
-          AppTexts.searchMovies,
-          style: TextStyle(
-            color: AppColors.textPrimary,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: const Text(AppTexts.searchMovies, style: TextStyles.appBarTitle),
         backgroundColor: AppColors.background,
-        elevation: SizeConstants.appBarElevation,
+        elevation: 0,
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
       ),
       body: Column(
@@ -65,24 +61,24 @@ class _SearchPageContent extends StatelessWidget {
   }
 
   Widget _buildInitialState() {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.search,
-            size: SizeConstants.iconSizeXXL,
+            size: AppSizes.s32,
             color: AppColors.textSecondary,
           ),
-          SizedBox(height: SizeConstants.spaceL),
-          Text(
+          SizedBox(height: AppSizes.s16),
+          const Text(
             AppTexts.searchForMovies,
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
+            style: TextStyles.searchInitialTitle,
           ),
-          SizedBox(height: SizeConstants.spaceS),
-          Text(
+          SizedBox(height: AppSizes.s8),
+          const Text(
             AppTexts.typeToFindMovies,
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+            style: TextStyles.searchInitialSubtitle,
           ),
         ],
       ),
@@ -91,55 +87,55 @@ class _SearchPageContent extends StatelessWidget {
 
   Widget _buildLoadingState() {
     return ListView.builder(
-      padding: const EdgeInsets.all(SizeConstants.pagePadding),
+      padding: EdgeInsets.all(AppSizes.s16),
       itemCount: 8,
       itemBuilder: (context, index) {
         return Container(
-          height: 140,
-          margin: const EdgeInsets.only(bottom: SizeConstants.spaceM),
+          height: AppSizes.hMovieListItem,
+          margin: EdgeInsets.only(bottom: AppSizes.s12),
           decoration: BoxDecoration(
-            color: Colors.grey[800],
-            borderRadius: BorderRadius.circular(SizeConstants.radiusS),
+            color: AppColors.surfaceVariant,
+            borderRadius: BorderRadius.circular(AppRadius.r8),
           ),
           child: Shimmer.fromColors(
-            baseColor: Colors.grey[800]!,
+            baseColor: AppColors.surfaceVariant,
             highlightColor: Colors.grey[700]!,
             child: Row(
               children: [
                 Container(
-                  width: 100,
+                  width: AppSizes.hMoviePoster,
                   height: double.infinity,
-                  color: Colors.grey[600],
+                  color: AppColors.surface,
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(SizeConstants.paddingM),
+                    padding: EdgeInsets.all(AppSizes.s12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          height: 16,
-                          width: double.infinity,
-                          color: Colors.grey[600],
+                          height: AppSizes.hShimmerTitle,
+                          width: AppSizes.wShimmerFull,
+                          color: AppColors.surface,
                         ),
-                        const SizedBox(height: SizeConstants.spaceS),
+                        SizedBox(height: AppSizes.s8),
                         Container(
-                          height: 14,
-                          width: 100,
-                          color: Colors.grey[600],
+                          height: AppSizes.hShimmerSubtitle,
+                          width: AppSizes.wShimmerSmall,
+                          color: AppColors.surface,
                         ),
-                        const SizedBox(height: SizeConstants.spaceM),
+                        SizedBox(height: AppSizes.s12),
                         Container(
-                          height: 12,
-                          width: double.infinity,
-                          color: Colors.grey[600],
+                          height: AppSizes.hShimmerText,
+                          width: AppSizes.wShimmerFull,
+                          color: AppColors.surface,
                         ),
-                        const SizedBox(height: SizeConstants.spaceXS),
+                        SizedBox(height: AppSizes.s4),
                         Container(
-                          height: 12,
-                          width: 200,
-                          color: Colors.grey[600],
+                          height: AppSizes.hShimmerText,
+                          width: AppSizes.wShimmerMedium,
+                          color: AppColors.surface,
                         ),
                       ],
                     ),
@@ -155,24 +151,24 @@ class _SearchPageContent extends StatelessWidget {
 
   Widget _buildResults(SearchLoaded state) {
     if (state.movies.isEmpty) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.movie_filter,
-              size: SizeConstants.iconSizeXXL,
+              size: AppSizes.s32,
               color: AppColors.textSecondary,
             ),
-            SizedBox(height: SizeConstants.spaceL),
-            Text(
+            SizedBox(height: AppSizes.s16),
+            const Text(
               AppTexts.noMoviesFound,
-              style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
+              style: TextStyles.searchInitialTitle,
             ),
-            SizedBox(height: SizeConstants.spaceS),
-            Text(
+            SizedBox(height: AppSizes.s8),
+            const Text(
               AppTexts.trySearchingSomethingElse,
-              style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+              style: TextStyles.searchInitialSubtitle,
             ),
           ],
         ),
@@ -180,8 +176,11 @@ class _SearchPageContent extends StatelessWidget {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.all(SizeConstants.pagePadding),
+      padding: EdgeInsets.all(AppSizes.s16),
       itemCount: state.movies.length,
+      addAutomaticKeepAlives: false,
+      addRepaintBoundaries: false,
+      cacheExtent: 500,
       itemBuilder: (context, index) {
         final movie = state.movies[index];
         return _SearchMovieItem(movie: movie);
@@ -194,28 +193,23 @@ class _SearchPageContent extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.error_outline,
-            size: SizeConstants.iconSizeXXL,
+            size: AppSizes.s32,
             color: AppColors.primary,
           ),
-          const SizedBox(height: SizeConstants.spaceL),
-          const Text(
-            AppTexts.searchFailed,
-            style: TextStyle(color: AppColors.textPrimary, fontSize: 18),
-          ),
-          const SizedBox(height: SizeConstants.spaceS),
+          SizedBox(height: AppSizes.s16),
+          const Text(AppTexts.searchFailed, style: TextStyles.searchErrorTitle),
+          SizedBox(height: AppSizes.s8),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: SizeConstants.spaceXXXL,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.s32),
             child: Text(
               message,
-              style: const TextStyle(color: AppColors.textSecondary),
+              style: TextStyles.searchErrorMessage,
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: SizeConstants.spaceL),
+          SizedBox(height: AppSizes.s16),
           ElevatedButton(
             onPressed: () {
               context.read<SearchBloc>().add(const SearchClear());
@@ -224,7 +218,7 @@ class _SearchPageContent extends StatelessWidget {
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.textPrimary,
             ),
-            child: const Text("Try Again"),
+            child: const Text(AppTexts.retry),
           ),
         ],
       ),
@@ -254,65 +248,48 @@ class _SearchBarState extends State<_SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(SizeConstants.spaceXL),
-      height: SizeConstants.buttonHeightL,
+      margin: EdgeInsets.all(AppSizes.s20),
+      height: AppSizes.hButtonL,
       decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(SizeConstants.radiusS),
+        color: AppColors.surfaceVariant,
+        borderRadius: BorderRadius.circular(AppRadius.r8),
       ),
       child: Row(
         children: [
           // Search Icon
           Padding(
-            padding: const EdgeInsets.only(
-              left: SizeConstants.spaceXL,
-              right: SizeConstants.spaceM,
-            ),
+            padding: EdgeInsets.only(left: AppSizes.s20, right: AppSizes.s12),
             child: Icon(
               Icons.search_rounded,
-              color: Colors.grey[200],
-              size: SizeConstants.iconSizeL,
+              color: AppColors.textSecondary,
+              size: AppSizes.s24,
             ),
           ),
 
-          // Search Field
           Expanded(
             child: TextField(
               controller: _controller,
               focusNode: _focusNode,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0.2,
-              ),
+              style: TextStyles.searchBarText,
               decoration: InputDecoration(
                 hintText: AppTexts.searchHintText,
-                hintStyle: TextStyle(
-                  color: Colors.grey[200],
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
+                hintStyle: TextStyles.searchBarHintText,
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
-                contentPadding: const EdgeInsets.only(
-                  right: SizeConstants.spaceL,
-                ),
+                contentPadding: EdgeInsets.only(right: AppSizes.s16),
               ),
               onChanged: (value) {
                 context.read<SearchBloc>().add(SearchQueryChanged(value));
               },
               textInputAction: TextInputAction.search,
               cursorColor: AppColors.primary,
-              cursorWidth: SizeConstants.borderWidthM,
             ),
           ),
 
-          // Clear Button
           if (_controller.text.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.only(right: SizeConstants.spaceL),
+              padding: EdgeInsets.only(right: AppSizes.s16),
               child: GestureDetector(
                 onTap: () {
                   _controller.clear();
@@ -320,16 +297,16 @@ class _SearchBarState extends State<_SearchBar> {
                   _focusNode.requestFocus();
                 },
                 child: Container(
-                  width: SizeConstants.iconSizeM,
-                  height: SizeConstants.iconSizeM,
-                  decoration: BoxDecoration(
+                  width: AppSizes.s20,
+                  height: AppSizes.s20,
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey[800],
+                    color: AppColors.surface,
                   ),
                   child: Icon(
                     Icons.clear_rounded,
-                    color: Colors.grey[400],
-                    size: SizeConstants.iconSizeS,
+                    color: AppColors.textSecondary,
+                    size: AppSizes.s16,
                   ),
                 ),
               ),
@@ -359,121 +336,95 @@ class _SearchMovieItem extends StatelessWidget {
         context.push('/movie/${movie.id}');
       },
       child: Container(
-        height: 140,
-        margin: const EdgeInsets.only(bottom: SizeConstants.spaceM),
+        height: AppSizes.hMovieListItem,
+        margin: EdgeInsets.only(bottom: AppSizes.s12),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(SizeConstants.radiusM),
-          border: Border.all(color: Colors.white.withOpacity(0.1)),
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadius.r12),
+          border: Border.all(color: AppColors.outline),
         ),
         child: Row(
           children: [
-            // Movie Poster - Fixed width
             Container(
-              width: 100,
+              width: AppSizes.hMoviePoster,
               height: double.infinity,
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(SizeConstants.radiusM),
-                  bottomLeft: Radius.circular(SizeConstants.radiusM),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(AppRadius.r12),
+                  bottomLeft: Radius.circular(AppRadius.r12),
                 ),
-                color: Colors.grey[800],
+                color: AppColors.surfaceVariant,
               ),
               child: movie.posterPath != null
                   ? ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(SizeConstants.radiusM),
-                        bottomLeft: Radius.circular(SizeConstants.radiusM),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(AppRadius.r12),
+                        bottomLeft: Radius.circular(AppRadius.r12),
                       ),
                       child: CachedMovieImage(
                         imageUrl: movie.posterUrl,
-                        width: 100,
+                        width: AppSizes.hMoviePoster,
                         height: double.infinity,
                       ),
                     )
-                  : const Center(
+                  : Center(
                       child: Icon(
                         Icons.movie,
                         color: AppColors.textSecondary,
-                        size: SizeConstants.iconSizeXL,
+                        size: AppSizes.s28,
                       ),
                     ),
             ),
 
-            // Movie Details
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(SizeConstants.paddingM),
+                padding: EdgeInsets.all(AppSizes.s12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title
-                    SizedBox(
-                      height: 40,
+                    Expanded(
                       child: Text(
                         movie.title ?? AppTexts.unknownTitle,
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyles.movieItemTitle,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
 
-                    const SizedBox(height: SizeConstants.spaceS),
-
-                    // Rating and Year
+                    SizedBox(height: AppSizes.s8),
                     SizedBox(
-                      height: 20,
+                      height: AppSizes.hMovieRating,
                       child: Row(
                         children: [
-                          // Rating
                           Row(
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.star,
                                 color: Colors.amber,
-                                size: SizeConstants.iconSizeS,
+                                size: AppSizes.s16,
                               ),
-                              const SizedBox(width: SizeConstants.spaceXS),
+                              SizedBox(width: AppSizes.s4),
                               Text(
                                 movie.voteAverage?.toStringAsFixed(1) ??
                                     AppTexts.notAvailable,
-                                style: const TextStyle(
-                                  color: AppColors.textSecondary,
-                                  fontSize: 14,
-                                ),
+                                style: TextStyles.movieItemSubtitle,
                               ),
                             ],
                           ),
 
-                          const SizedBox(width: SizeConstants.spaceL),
+                          SizedBox(width: AppSizes.s16),
 
-                          // Release Year
-                          Text(
-                            movie.year,
-                            style: const TextStyle(
-                              color: AppColors.textSecondary,
-                              fontSize: 14,
-                            ),
-                          ),
+                          Text(movie.year, style: TextStyles.movieItemSubtitle),
                         ],
                       ),
                     ),
 
-                    const SizedBox(height: SizeConstants.spaceS),
-
-                    // Overview
+                    SizedBox(height: AppSizes.s8),
                     Expanded(
                       child: Text(
                         movie.overview ?? '',
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 12,
-                        ),
-                        maxLines: 3,
+                        style: TextStyles.movieItemOverview,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

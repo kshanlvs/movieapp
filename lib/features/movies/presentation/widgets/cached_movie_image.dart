@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/app_radius.dart';
+import 'package:movieapp/core/constants/font_size_constants.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
 import 'package:movieapp/core/network/movie_cache_manager.dart';
@@ -64,7 +66,7 @@ class CachedMovieImage extends StatelessWidget {
       child: const Center(
         child: CircularProgressIndicator(
           color: AppColors.primary,
-          strokeWidth: SizeConstants.borderWidthS,
+          strokeWidth: 1,
         ),
       ),
     );
@@ -74,19 +76,22 @@ class CachedMovieImage extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      color: Colors.grey[800],
-      child: const Column(
+      color: AppColors.surfaceVariant,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.error_outline,
             color: AppColors.textSecondary,
-            size: SizeConstants.iconSizeL,
+            size: AppSizes.s24,
           ),
-          SizedBox(height: SizeConstants.spaceS),
-          Text(
+          SizedBox(height: AppSizes.s8),
+          const Text(
             AppTexts.failedToLoad,
-            style: TextStyle(color: AppColors.textSecondary, fontSize: 10),
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: FontSizes.bodySmall,
+            ),
           ),
         ],
       ),
@@ -115,7 +120,7 @@ class CachedMoviePoster extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
-      borderRadius: BorderRadius.circular(SizeConstants.radiusS),
+      borderRadius: BorderRadius.circular(AppRadius.r8),
     );
   }
 }

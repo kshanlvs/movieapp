@@ -13,10 +13,16 @@ class NowPlayingImpl implements NowPlayingRepository {
 
   @override
   Future<List<MovieModel>> nowPlayingMovies() async {
-    if (cacheRepository.hasCachedMovies(MovieTypes.nowPlaying)) {
+    final hasValidCache = cacheRepository.hasCachedMovies(
+      MovieTypes.nowPlaying,
+    );
+
+    if (hasValidCache) {
       final cachedMovies = cacheRepository.getCachedMovies(
         MovieTypes.nowPlaying,
       );
+
+      _refreshDataInBackground();
       return cachedMovies;
     }
 
@@ -30,13 +36,24 @@ class NowPlayingImpl implements NowPlayingRepository {
       await cacheRepository.cacheMovies(MovieTypes.nowPlaying, movies);
       return movies;
     } catch (e) {
-      if (cacheRepository.hasCachedMovies(MovieTypes.nowPlaying)) {
-        final cachedMovies = cacheRepository.getCachedMovies(
-          MovieTypes.nowPlaying,
-        );
+      final cachedMovies = cacheRepository.getCachedMovies(
+        MovieTypes.nowPlaying,
+      );
+      if (cachedMovies.isNotEmpty) {
         return cachedMovies;
       }
       throw Exception('Failed to load now playing movies: $e');
     }
+  }
+
+  void _refreshDataInBackground() {
+    Future(() async {
+      final response = await client.get(ApiConstants.nowPlayingMovies);
+      final results = response.json['results'] as List;
+      final movies = results
+          .map((movieData) => MovieModel.fromJson(movieData))
+          .toList();
+      await cacheRepository.cacheMovies(MovieTypes.nowPlaying, movies);
+    });
   }
 }

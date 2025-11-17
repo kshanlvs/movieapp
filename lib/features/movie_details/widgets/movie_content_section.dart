@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/app_radius.dart';
+import 'package:movieapp/core/constants/font_size_constants.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
 import 'package:movieapp/features/movie_details/data/model/movie_detail_model.dart';
@@ -18,17 +20,17 @@ class MovieContentSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.all(SizeConstants.spaceXL),
+        padding: EdgeInsets.all(AppSizes.s20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: SizeConstants.spaceXL),
+            SizedBox(height: AppSizes.s20),
             _buildTitleSection(details),
-            const SizedBox(height: SizeConstants.spaceM),
+            SizedBox(height: AppSizes.s12),
             _buildRatingSection(details, isBookmarked),
-            const SizedBox(height: SizeConstants.spaceXL),
+            SizedBox(height: AppSizes.s20),
             _buildOverviewSection(details),
-            const SizedBox(height: SizeConstants.spaceXL),
+            SizedBox(height: AppSizes.s20),
             _buildGenresSection(details),
           ],
         ),
@@ -40,7 +42,7 @@ class MovieContentSection extends StatelessWidget {
     return Text(
       details.title,
       style: const TextStyle(
-        fontSize: 28,
+        fontSize: FontSizes.headlineMedium,
         fontWeight: FontWeight.bold,
         color: AppColors.textPrimary,
         height: 1.2,
@@ -51,15 +53,14 @@ class MovieContentSection extends StatelessWidget {
   Widget _buildRatingSection(MovieDetails details, bool isBookmarked) {
     return Row(
       children: [
-        const Icon(
-          Icons.star,
-          color: Colors.amber,
-          size: SizeConstants.iconSizeM,
-        ),
-        const SizedBox(width: SizeConstants.spaceXS),
+        Icon(Icons.star, color: Colors.amber, size: AppSizes.s20),
+        SizedBox(width: AppSizes.s4),
         Text(
           details.voteAverage.toStringAsFixed(1),
-          style: const TextStyle(color: AppColors.textSecondary, fontSize: 16),
+          style: const TextStyle(
+            color: AppColors.textSecondary,
+            fontSize: FontSizes.bodyLarge,
+          ),
         ),
         const Spacer(),
         if (isBookmarked) _buildBookmarkIndicator(),
@@ -68,19 +69,15 @@ class MovieContentSection extends StatelessWidget {
   }
 
   Widget _buildBookmarkIndicator() {
-    return const Row(
+    return Row(
       children: [
-        Icon(
-          Icons.bookmark,
-          color: AppColors.primary,
-          size: SizeConstants.iconSizeS,
-        ),
-        SizedBox(width: SizeConstants.spaceXS),
-        Text(
+        Icon(Icons.bookmark, color: AppColors.primary, size: AppSizes.s16),
+        SizedBox(width: AppSizes.s4),
+        const Text(
           AppTexts.saved,
           style: TextStyle(
             color: AppColors.primary,
-            fontSize: 14,
+            fontSize: FontSizes.bodyMedium,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -93,7 +90,7 @@ class MovieContentSection extends StatelessWidget {
       details.overview ?? "",
       style: const TextStyle(
         color: AppColors.textSecondary,
-        fontSize: 16,
+        fontSize: FontSizes.bodyLarge,
         height: 1.4,
       ),
     );
@@ -101,15 +98,21 @@ class MovieContentSection extends StatelessWidget {
 
   Widget _buildGenresSection(MovieDetails details) {
     return Wrap(
-      spacing: SizeConstants.spaceS,
-      runSpacing: SizeConstants.spaceS,
+      spacing: AppSizes.s8,
+      runSpacing: AppSizes.s8,
       children: details.genres
           .map(
             (genre) => Chip(
-              label: Text(genre.name, style: const TextStyle(fontSize: 13)),
-              backgroundColor: Colors.white12,
+              label: Text(
+                genre.name,
+                style: const TextStyle(
+                  fontSize: FontSizes.bodySmall,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              backgroundColor: AppColors.surfaceVariant,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(SizeConstants.radiusCircle),
+                borderRadius: BorderRadius.circular(AppRadius.r20),
               ),
             ),
           )

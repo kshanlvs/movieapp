@@ -27,10 +27,10 @@ class ServiceLocator {
   }
 
   Future<void> _registerDatabase() async {
-  final databaseManager = DatabaseManager();
-  await databaseManager.init();
-  sl.registerLazySingleton<DatabaseManager>(() => databaseManager);
-}
+    final databaseManager = DatabaseManager();
+    await databaseManager.init();
+    sl.registerLazySingleton<DatabaseManager>(() => databaseManager);
+  }
 
   Future<void> _registerEnvironment() async {
     final environmentFactory = EnvironmentFactory();

@@ -12,7 +12,6 @@ analyzer:
     implicit-dynamic: false
 
   errors:
-    # Treat analysis issues as errors
     missing_required_param: error
     missing_return: error
     avoid_init_to_null: error
@@ -21,13 +20,11 @@ analyzer:
 
 linter:
   rules:
-    # Error rules
     always_declare_return_types: error
     always_require_non_null_named_parameters: error
     avoid_dynamic_calls: error
     avoid_void_async: error
     
-    # Style rules
     always_use_package_imports: true
     avoid_redundant_argument_values: true
     avoid_relative_lib_imports: true
@@ -38,9 +35,6 @@ linter:
     prefer_final_locals: true
     lines_longer_than_80_chars: true
     
-
-    
-    # Good practice rules
     use_key_in_widget_constructors: true
     prefer_const_constructors_in_immutables: true
     avoid_print: true

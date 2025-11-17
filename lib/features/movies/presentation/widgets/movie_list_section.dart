@@ -46,8 +46,8 @@ class MovieListSection extends StatelessWidget {
   Widget _buildErrorState() {
     return SliverToBoxAdapter(
       child: Container(
-        height: SizeConstants.movieListErrorHeight,
-        padding: const EdgeInsets.all(SizeConstants.pagePadding),
+        height: AppSizes.s200,
+        padding: EdgeInsets.all(AppSizes.s16),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +56,7 @@ class MovieListSection extends StatelessWidget {
                 AppTexts.errorLoadingMovies,
                 style: TextStyle(color: AppColors.textPrimary),
               ),
-              const SizedBox(height: SizeConstants.spaceS),
+              SizedBox(height: AppSizes.s8),
               ElevatedButton(
                 onPressed: onRetry,
                 style: ElevatedButton.styleFrom(
@@ -75,13 +75,11 @@ class MovieListSection extends StatelessWidget {
   Widget _buildLoadingState() {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: SizeConstants.movieListSectionHeight,
+        height: AppSizes.s200,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: SizeConstants.pagePadding,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
           itemCount: 10,
           itemBuilder: (context, index) {
             return const MovieCardShimmer();
@@ -92,10 +90,10 @@ class MovieListSection extends StatelessWidget {
   }
 
   Widget _buildEmptyState() {
-    return const SliverToBoxAdapter(
+    return SliverToBoxAdapter(
       child: SizedBox(
-        height: SizeConstants.movieListEmptyHeight,
-        child: Center(
+        height: AppSizes.s200,
+        child: const Center(
           child: Text(
             AppTexts.noMoviesAvailable,
             style: TextStyle(color: AppColors.textSecondary),
@@ -108,13 +106,11 @@ class MovieListSection extends StatelessWidget {
   Widget _buildMovieGrid() {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: SizeConstants.movieListContentHeight,
+        height: AppSizes.s220,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(
-            horizontal: SizeConstants.pagePadding,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
           itemCount: movies.length,
           itemBuilder: (context, index) {
             final movie = movies[index];

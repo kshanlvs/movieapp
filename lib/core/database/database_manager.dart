@@ -8,15 +8,15 @@ class DatabaseManager {
 
   Future<void> init() async {
     if (_isInitialized) return;
-    
+
     final appDocumentDir = await getApplicationDocumentsDirectory();
-    await Hive.initFlutter(appDocumentDir.path); 
+    await Hive.initFlutter(appDocumentDir.path);
     Hive.registerAdapter(MovieModelAdapter());
 
     await Hive.openBox(MovieTypes.trending);
     await Hive.openBox(MovieTypes.nowPlaying);
     await Hive.openBox(MovieTypes.bookmarked);
-    
+
     _isInitialized = true;
   }
 

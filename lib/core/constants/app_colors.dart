@@ -9,4 +9,7 @@ class AppColors {
   static const Color shimmerHighlight = Color(0xFF2A2A2A);
   static const Color placeholderBackground = Color(0xFF121212);
   static const Color accent = Color(0xFFEF5350);
+  static const Color surface = Color(0xFF1E1E1E);
+  static const Color surfaceVariant = Color(0xFF2A2A2A);
+  static const Color outline = Color(0xFF404040);
 }

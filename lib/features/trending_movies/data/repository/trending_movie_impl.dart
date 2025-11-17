@@ -13,8 +13,12 @@ class TrendingMovieImpl implements TrendingMovieRepository {
 
   @override
   Future<List<MovieModel>> trendingMovies() async {
-    if (cacheRepository.hasCachedMovies(MovieTypes.trending)) {
-      return cacheRepository.getCachedMovies(MovieTypes.trending);
+    final hasValidCache = cacheRepository.hasCachedMovies(MovieTypes.trending);
+
+    if (hasValidCache) {
+      final cachedMovies = cacheRepository.getCachedMovies(MovieTypes.trending);
+      _refreshDataInBackground();
+      return cachedMovies;
     }
 
     try {
@@ -25,10 +29,20 @@ class TrendingMovieImpl implements TrendingMovieRepository {
       await cacheRepository.cacheMovies(MovieTypes.trending, movies);
       return movies;
     } catch (e) {
-      if (cacheRepository.hasCachedMovies(MovieTypes.trending)) {
-        return cacheRepository.getCachedMovies(MovieTypes.trending);
+      final cachedMovies = cacheRepository.getCachedMovies(MovieTypes.trending);
+      if (cachedMovies.isNotEmpty) {
+        return cachedMovies;
       }
       throw Exception('Failed to load trending movies: $e');
     }
+  }
+
+  void _refreshDataInBackground() {
+    Future(() async {
+      final response = await client.get(ApiConstants.trendingMovie);
+      final results = response.json['results'] as List;
+      final movies = results.map((m) => MovieModel.fromJson(m)).toList();
+      await cacheRepository.cacheMovies(MovieTypes.trending, movies);
+    });
   }
 }

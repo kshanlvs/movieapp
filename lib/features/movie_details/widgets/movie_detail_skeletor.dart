@@ -1,8 +1,8 @@
-// features/movie_details/presentation/widgets/movie_detail_skeleton.dart
 import 'package:flutter/material.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:movieapp/core/constants/app_radius.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MovieDetailSkeleton extends StatelessWidget {
   const MovieDetailSkeleton({super.key});
@@ -12,7 +12,7 @@ class MovieDetailSkeleton extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          expandedHeight: 380,
+          expandedHeight: AppSizes.s380,
           flexibleSpace: Shimmer.fromColors(
             baseColor: Colors.grey.shade900,
             highlightColor: Colors.grey.shade700,
@@ -21,7 +21,7 @@ class MovieDetailSkeleton extends StatelessWidget {
         ),
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.all(SizeConstants.spaceXL),
+            padding: EdgeInsets.all(AppSizes.s20),
             child: Shimmer.fromColors(
               baseColor: Colors.grey.shade900,
               highlightColor: Colors.grey.shade700,
@@ -29,13 +29,13 @@ class MovieDetailSkeleton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildActionButtonsSkeleton(),
-                  const SizedBox(height: SizeConstants.spaceXXXL),
+                  SizedBox(height: AppSizes.s32),
                   _buildTitleSkeleton(),
-                  const SizedBox(height: SizeConstants.spaceL),
+                  SizedBox(height: AppSizes.s16),
                   _buildRatingSkeleton(),
-                  const SizedBox(height: SizeConstants.spaceXL),
+                  SizedBox(height: AppSizes.s20),
                   _buildOverviewSkeleton(),
-                  const SizedBox(height: SizeConstants.spaceXL),
+                  SizedBox(height: AppSizes.s20),
                   _buildGenresSkeleton(),
                 ],
               ),
@@ -54,15 +54,19 @@ class MovieDetailSkeleton extends StatelessWidget {
         (index) => Column(
           children: [
             Container(
-              width: SizeConstants.iconSizeXXXL,
-              height: SizeConstants.iconSizeXXXL,
+              width: AppSizes.s40,
+              height: AppSizes.s40,
               decoration: const BoxDecoration(
                 color: AppColors.background,
                 shape: BoxShape.circle,
               ),
             ),
-            const SizedBox(height: SizeConstants.spaceXS),
-            Container(height: 12, width: 40, color: AppColors.background),
+            SizedBox(height: AppSizes.s4),
+            Container(
+              height: AppSizes.hShimmerText,
+              width: AppSizes.wShimmerSmall,
+              color: AppColors.background,
+            ),
           ],
         ),
       ),
@@ -70,44 +74,56 @@ class MovieDetailSkeleton extends StatelessWidget {
   }
 
   Widget _buildTitleSkeleton() {
-    return Container(height: 28, width: 220, color: AppColors.background);
+    return Container(
+      height: AppSizes.hShimmerTitle,
+      width: AppSizes.wShimmerMedium,
+      color: AppColors.background,
+    );
   }
 
   Widget _buildRatingSkeleton() {
-    return Container(height: 20, width: 80, color: AppColors.background);
+    return Container(
+      height: AppSizes.hShimmerSubtitle,
+      width: AppSizes.wShimmerXSmall,
+      color: AppColors.background,
+    );
   }
 
   Widget _buildOverviewSkeleton() {
     return Column(
       children: [
         Container(
-          height: 16,
+          height: AppSizes.hShimmerText,
           width: double.infinity,
           color: AppColors.background,
         ),
-        const SizedBox(height: SizeConstants.spaceM),
+        SizedBox(height: AppSizes.s12),
         Container(
-          height: 16,
+          height: AppSizes.hShimmerText,
           width: double.infinity,
           color: AppColors.background,
         ),
-        const SizedBox(height: SizeConstants.spaceM),
-        Container(height: 16, width: 200, color: AppColors.background),
+        SizedBox(height: AppSizes.s12),
+        Container(
+          height: AppSizes.hShimmerText,
+          width: AppSizes.wShimmerMedium,
+          color: AppColors.background,
+        ),
       ],
     );
   }
 
   Widget _buildGenresSkeleton() {
     return Wrap(
-      spacing: SizeConstants.spaceS,
+      spacing: AppSizes.s8,
       children: List.generate(
         3,
         (index) => Container(
-          width: 70,
-          height: SizeConstants.buttonHeightXS,
+          width: AppSizes.wShimmerXSmall,
+          height: AppSizes.hButtonXS,
           decoration: BoxDecoration(
             color: AppColors.background,
-            borderRadius: BorderRadius.circular(SizeConstants.radiusCircle),
+            borderRadius: BorderRadius.circular(AppRadius.r20),
           ),
         ),
       ),

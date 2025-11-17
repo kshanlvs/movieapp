@@ -2,8 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/app_radius.dart';
+import 'package:movieapp/core/constants/font_size_constants.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
+import 'package:movieapp/core/constants/text_style_constants.dart';
+import 'package:movieapp/core/deeplink/deep_link_service.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_bloc.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_event.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_state.dart';
@@ -74,6 +78,189 @@ class _MovieDetailPageState extends State<MovieDetailPage>
 
   void _onDownloadPressed() {}
 
+  void _onSharePressed(MovieDetails movieDetail) {
+    final shareMessage = DeepLinkService.createMovieShareMessage(
+      widget.movieId,
+      movieDetail.title,
+    );
+
+    _showShareDialog(shareMessage);
+  }
+
+  void _showShareDialog(String shareMessage) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.r20),
+        ),
+        elevation: 8,
+        shadowColor: Colors.black.withOpacity(0.3),
+        child: Padding(
+          padding: EdgeInsets.all(AppSizes.s24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+          
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(AppSizes.s12),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(AppRadius.r12),
+                    ),
+                    child: Icon(
+                      Icons.share_rounded,
+                      color: AppColors.primary,
+                      size: AppSizes.s24,
+                    ),
+                  ),
+                  SizedBox(width: AppSizes.s12),
+                  const Expanded(
+                    child: Text(
+                      'Share Movie',
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: FontSizes.titleLarge,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: AppSizes.s20),
+
+              const Text(
+                'Copy the link below to share this movie:',
+                style: TextStyles.movieItemOverview,
+              ),
+
+              SizedBox(height: AppSizes.s16),
+
+        
+              Container(
+                padding: EdgeInsets.all(AppSizes.s16),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceVariant,
+                  borderRadius: BorderRadius.circular(AppRadius.r12),
+                  border: Border.all(
+                    color: AppColors.outline.withOpacity(0.5),
+             
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Deep Link',
+                            style: TextStyle(
+                              color: AppColors.textSecondary,
+                              fontSize: FontSizes.bodySmall,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(height: AppSizes.s4),
+                          SelectableText(
+                            shareMessage,
+                            style: TextStyles.movieItemOverview.copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: AppSizes.s12),
+                    GestureDetector(
+                      onTap: () {
+                        _copyToClipboard(shareMessage);
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(AppSizes.s12),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(AppRadius.r8),
+                        ),
+                        child: Icon(
+                          Icons.copy_rounded,
+                          color: AppColors.textPrimary,
+                          size: AppSizes.s20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: AppSizes.s24),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.textSecondary,
+                        side: const BorderSide(color: AppColors.outline),
+                        padding: EdgeInsets.symmetric(vertical: AppSizes.s12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.r12),
+                        ),
+                      ),
+                      child: const Text(AppTexts.cancel),
+                    ),
+                  ),
+                  SizedBox(width: AppSizes.s12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _copyToClipboard(shareMessage);
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: AppColors.textPrimary,
+                        padding: EdgeInsets.symmetric(vertical: AppSizes.s12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.r12),
+                        ),
+                      ),
+                      child: const Text('Copy Link'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _copyToClipboard(String text) {
+    // todo : handle cliping
+    _showShareSuccess();
+  }
+
+  void _showShareSuccess() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: AppColors.surface,
+        content: Text(
+          'Movie link copied to clipboard!',
+          style: TextStyles.movieItemOverview,
+        ),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   void _showBookmarkSnackbar(bool isBookmarked) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -84,7 +271,7 @@ class _MovieDetailPageState extends State<MovieDetailPage>
               isBookmarked ? Icons.bookmark_added : Icons.bookmark_remove,
               color: AppColors.textPrimary,
             ),
-            const SizedBox(width: SizeConstants.spaceS),
+            SizedBox(width: AppSizes.s8),
             Text(
               isBookmarked ? AppTexts.movieSaved : AppTexts.movieRemoved,
               style: const TextStyle(color: AppColors.textPrimary),
@@ -94,7 +281,7 @@ class _MovieDetailPageState extends State<MovieDetailPage>
         duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(SizeConstants.radiusS),
+          borderRadius: BorderRadius.circular(AppRadius.r8),
         ),
       ),
     );
@@ -135,6 +322,7 @@ class _MovieDetailPageState extends State<MovieDetailPage>
                   uiState: uiState,
                   onBookmarkPressed: () => _onBookmarkPressed(movieDetail),
                   onDownloadPressed: _onDownloadPressed,
+                  onSharePressed: () => _onSharePressed(movieDetail),
                 );
 
               case MovieDetailError(:final message):
@@ -159,6 +347,7 @@ class MovieDetailBody extends StatelessWidget {
   final MovieInteractionState uiState;
   final VoidCallback onBookmarkPressed;
   final VoidCallback onDownloadPressed;
+  final VoidCallback onSharePressed;
 
   const MovieDetailBody({
     super.key,
@@ -167,6 +356,7 @@ class MovieDetailBody extends StatelessWidget {
     required this.uiState,
     required this.onBookmarkPressed,
     required this.onDownloadPressed,
+    required this.onSharePressed,
   });
 
   @override
@@ -179,12 +369,13 @@ class MovieDetailBody extends StatelessWidget {
 
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(SizeConstants.spaceXL),
+              padding: EdgeInsets.all(AppSizes.s20),
               child: ActionButtonsRowView(
                 details: details,
                 uiState: uiState,
                 onBookmarkPressed: onBookmarkPressed,
                 onDownloadPressed: onDownloadPressed,
+                onSharePressed: onSharePressed,
               ),
             ),
           ),
@@ -201,6 +392,7 @@ class ActionButtonsRowView extends StatelessWidget {
   final MovieInteractionState uiState;
   final VoidCallback onBookmarkPressed;
   final VoidCallback onDownloadPressed;
+  final VoidCallback onSharePressed;
 
   const ActionButtonsRowView({
     super.key,
@@ -208,6 +400,7 @@ class ActionButtonsRowView extends StatelessWidget {
     required this.uiState,
     required this.onBookmarkPressed,
     required this.onDownloadPressed,
+    required this.onSharePressed,
   });
 
   @override
@@ -225,6 +418,7 @@ class ActionButtonsRowView extends StatelessWidget {
           onMyListPressed: () => uiState.isInMyList.value = !isInMyList,
           onBookmarkPressed: onBookmarkPressed,
           onDownloadPressed: onDownloadPressed,
+          onPressedShare: onSharePressed,
         );
       },
     );

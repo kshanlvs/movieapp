@@ -21,6 +21,7 @@ class AppTexts {
   // General
   static const String retry = 'Retry';
   static const String noData = 'No Data Available';
+  static const String share = "Share";
   // Add to your AppTexts class
   static const String myList = 'My List';
   static const String like = 'Like';
@@ -55,4 +56,19 @@ class AppTexts {
       'Try searching for something else';
   static const String searchFailed = 'Search failed';
   static const String searchHintText = 'What do you want to watch?';
+
+  static const String savedMovies = 'Saved Movies';
+  static const String noSavedMovies = 'No Saved Movies';
+  static const String moviesYouSaveWillAppearHere =
+      'Movies you save will appear here';
+  static const String browseMovies = 'Browse Movies';
+  static const String failedToLoadSavedMovies = 'Failed to load saved movies';
+  static const String removeFromSaved = 'Remove from Saved?';
+  static const String removeMoviePrompt = 'Remove';
+  static const String fromYourSavedMovies = 'from your saved movies?';
+  static const String removed = 'Removed';
+  static const String fromSaved = 'from saved';
+  static const String cancel = 'Cancel';
+  static const String remove = 'Remove';
+  static const String failedToLoadMovieDetails = 'Failed to load movie details';
 }

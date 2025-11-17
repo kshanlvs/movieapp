@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/app_radius.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
+import 'package:movieapp/core/constants/text_style_constants.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_bloc.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_event.dart';
 import 'package:movieapp/features/bookmark/presentation/bloc/bookmark_state.dart';
@@ -17,15 +20,12 @@ class SavedMoviesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text(
-          'Saved Movies',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.black,
-        elevation: SizeConstants.appBarElevation,
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Text(AppTexts.savedMovies, style: TextStyles.appBarTitle),
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: AppColors.textPrimary),
       ),
       body: BlocBuilder<BookmarkBloc, BookmarkState>(
         builder: (context, state) {
@@ -43,7 +43,9 @@ class SavedMoviesPage extends StatelessWidget {
   }
 
   Widget _buildLoading() {
-    return const Center(child: CircularProgressIndicator(color: Colors.red));
+    return const Center(
+      child: CircularProgressIndicator(color: AppColors.primary),
+    );
   }
 
   Widget _buildBookmarks(List<MovieModel> bookmarks) {
@@ -51,11 +53,10 @@ class SavedMoviesPage extends StatelessWidget {
       return _buildEmptyState();
     }
     return Padding(
-      padding: const EdgeInsets.all(SizeConstants.pagePadding),
+      padding: EdgeInsets.all(AppSizes.s16),
       child: ListView.separated(
         itemCount: bookmarks.length,
-        separatorBuilder: (context, index) =>
-            const SizedBox(height: SizeConstants.spaceM),
+        separatorBuilder: (context, index) => SizedBox(height: AppSizes.s12),
         itemBuilder: (context, index) {
           final movie = bookmarks[index];
           return _SavedMovieListItem(
@@ -76,38 +77,33 @@ class SavedMoviesPage extends StatelessWidget {
         children: [
           Icon(
             Icons.bookmark_border,
-            size: SizeConstants.iconSizeXXXL,
-            color: Colors.grey[600],
+            size: AppSizes.s40,
+            color: AppColors.textSecondary,
           ),
-          const SizedBox(height: SizeConstants.spaceL),
+          SizedBox(height: AppSizes.s16),
           const Text(
-            'No Saved Movies',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            AppTexts.noSavedMovies,
+            style: TextStyles.searchErrorTitle,
           ),
-          const SizedBox(height: SizeConstants.spaceS),
+          SizedBox(height: AppSizes.s8),
           const Text(
-            'Movies you save will appear here',
-            style: TextStyle(color: Colors.grey, fontSize: 14),
+            AppTexts.moviesYouSaveWillAppearHere,
+            style: TextStyles.searchInitialSubtitle,
           ),
-          const SizedBox(height: SizeConstants.spaceXXL),
+          SizedBox(height: AppSizes.s24),
           ElevatedButton(
             onPressed: () {
-              // Navigate to home to browse movies
               // context.go('/home');
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(
-                horizontal: SizeConstants.paddingXXL,
-                vertical: SizeConstants.paddingM,
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.textPrimary,
+              padding: EdgeInsets.symmetric(
+                horizontal: AppSizes.s24,
+                vertical: AppSizes.s12,
               ),
             ),
-            child: const Text('Browse Movies'),
+            child: const Text(AppTexts.browseMovies),
           ),
         ],
       ),
@@ -121,32 +117,31 @@ class SavedMoviesPage extends StatelessWidget {
         children: [
           Icon(
             Icons.error_outline,
-            size: SizeConstants.iconSizeXXL,
-            color: Colors.red[300],
+            size: AppSizes.s32,
+            color: AppColors.primary,
           ),
-          const SizedBox(height: SizeConstants.spaceL),
+          SizedBox(height: AppSizes.s16),
           const Text(
-            'Failed to load saved movies',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
+            AppTexts.failedToLoadSavedMovies,
+            style: TextStyles.searchErrorTitle,
+          ),
+          SizedBox(height: AppSizes.s8),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.s32),
+            child: Text(
+              message,
+              style: TextStyles.searchErrorMessage,
+              textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: SizeConstants.spaceS),
-          Text(
-            message,
-            style: const TextStyle(color: Colors.grey, fontSize: 14),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: SizeConstants.spaceL),
+          SizedBox(height: AppSizes.s16),
           ElevatedButton(
             onPressed: () {
               context.read<BookmarkBloc>().add(LoadBookmarks());
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
+              backgroundColor: AppColors.primary,
+              foregroundColor: AppColors.textPrimary,
             ),
             child: const Text(AppTexts.retry),
           ),
@@ -167,45 +162,42 @@ class _SavedMovieListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 140,
+        height: AppSizes.hMovieListItem,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(SizeConstants.radiusM),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.1),
-            width: SizeConstants.borderWidthXS,
-          ),
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadius.r12),
+          border: Border.all(color: AppColors.outline),
         ),
         child: Row(
           children: [
             // Movie Poster
             Container(
-              width: 100,
+              width: AppSizes.hMoviePoster,
               height: double.infinity,
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(SizeConstants.radiusM),
-                  bottomLeft: Radius.circular(SizeConstants.radiusM),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(AppRadius.r12),
+                  bottomLeft: Radius.circular(AppRadius.r12),
                 ),
-                color: Colors.grey[800],
+                color: AppColors.surfaceVariant,
               ),
               child: movie.posterPath != null
                   ? ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(SizeConstants.radiusM),
-                        bottomLeft: Radius.circular(SizeConstants.radiusM),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(AppRadius.r12),
+                        bottomLeft: Radius.circular(AppRadius.r12),
                       ),
                       child: CachedMovieImage(
                         imageUrl: movie.posterUrlMedium,
-                        width: 100,
+                        width: AppSizes.hMoviePoster,
                         height: double.infinity,
                       ),
                     )
-                  : const Center(
+                  : Center(
                       child: Icon(
                         Icons.movie,
-                        color: Colors.white70,
-                        size: SizeConstants.iconSizeXL,
+                        color: AppColors.textSecondary,
+                        size: AppSizes.s28,
                       ),
                     ),
             ),
@@ -213,7 +205,7 @@ class _SavedMovieListItem extends StatelessWidget {
             // Movie Details
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(SizeConstants.paddingL),
+                padding: EdgeInsets.all(AppSizes.s16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -221,65 +213,56 @@ class _SavedMovieListItem extends StatelessWidget {
                     // Title
                     Expanded(
                       child: Text(
-                        movie.title ?? 'Unknown Title',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        movie.title ?? AppTexts.unknownTitle,
+                        style: TextStyles.movieItemTitle,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
 
-                    const SizedBox(height: SizeConstants.spaceS),
+                    SizedBox(height: AppSizes.s8),
 
                     // Rating and Year
-                    Row(
-                      children: [
-                        // Rating
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                              size: SizeConstants.iconSizeS,
-                            ),
-                            const SizedBox(width: SizeConstants.spaceXS),
-                            Text(
-                              movie.voteAverage?.toStringAsFixed(1) ?? 'N/A',
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 14,
+                    SizedBox(
+                      height: AppSizes.hMovieRating,
+                      child: Row(
+                        children: [
+                          // Rating
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: AppSizes.s16,
                               ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(width: SizeConstants.spaceL),
-
-                        // Release Year
-                        if (movie.releaseDate != null)
-                          Text(
-                            movie.releaseDate!.split('-')[0],
-                            style: const TextStyle(
-                              color: Colors.white54,
-                              fontSize: 14,
-                            ),
+                              SizedBox(width: AppSizes.s4),
+                              Text(
+                                movie.voteAverage?.toStringAsFixed(1) ??
+                                    AppTexts.notAvailable,
+                                style: TextStyles.movieItemSubtitle,
+                              ),
+                            ],
                           ),
-                      ],
+
+                          SizedBox(width: AppSizes.s16),
+
+                          // Release Year
+                          if (movie.releaseDate != null)
+                            Text(
+                              movie.releaseDate!.split('-')[0],
+                              style: TextStyles.movieItemSubtitle,
+                            ),
+                        ],
+                      ),
                     ),
 
-                    const SizedBox(height: SizeConstants.spaceS),
+                    SizedBox(height: AppSizes.s8),
 
                     // Overview (truncated)
                     if (movie.overview != null && movie.overview!.isNotEmpty)
                       Text(
                         movie.overview!,
-                        style: const TextStyle(
-                          color: Colors.white54,
-                          fontSize: 12,
-                        ),
+                        style: TextStyles.movieItemOverview,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -290,15 +273,15 @@ class _SavedMovieListItem extends StatelessWidget {
 
             // Remove Button
             Padding(
-              padding: const EdgeInsets.all(SizeConstants.paddingL),
+              padding: EdgeInsets.all(AppSizes.s16),
               child: IconButton(
                 onPressed: () {
                   _showRemoveDialog(context, movie);
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.bookmark_remove,
-                  color: Colors.red,
-                  size: SizeConstants.iconSizeL,
+                  color: AppColors.primary,
+                  size: AppSizes.s24,
                 ),
               ),
             ),
@@ -312,21 +295,25 @@ class _SavedMovieListItem extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.r16),
+        ),
         title: const Text(
-          'Remove from Saved?',
-          style: TextStyle(color: Colors.white),
+          AppTexts.removeFromSaved,
+          style: TextStyles.movieItemTitle,
         ),
         content: Text(
-          'Remove "${movie.title}" from your saved movies?',
-          style: const TextStyle(color: Colors.white70),
+          '${AppTexts.removeMoviePrompt} "${movie.title}"'
+          ' ${AppTexts.fromYourSavedMovies}',
+          style: TextStyles.movieItemOverview,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text(
-              'Cancel',
-              style: TextStyle(color: Colors.white70),
+              AppTexts.cancel,
+              style: TextStyles.movieItemSubtitle,
             ),
           ),
           TextButton(
@@ -336,13 +323,23 @@ class _SavedMovieListItem extends StatelessWidget {
 
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  backgroundColor: Colors.white,
-                  content: Text('Removed "${movie.title}" from saved'),
+                  backgroundColor: AppColors.surface,
+                  content: Text(
+                    '${AppTexts.removed} "${movie.title}"'
+                    '${AppTexts.fromSaved}',
+                    style: TextStyles.movieItemOverview,
+                  ),
                   duration: const Duration(seconds: 2),
                 ),
               );
             },
-            child: const Text('Remove', style: TextStyle(color: Colors.white)),
+            child: const Text(
+              AppTexts.remove,
+              style: TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ],
       ),

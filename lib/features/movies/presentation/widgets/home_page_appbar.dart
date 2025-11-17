@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/font_size_constants.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
 
@@ -16,7 +17,7 @@ class AnimatedAppBar extends StatefulWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(SizeConstants.appBarHeight);
+  Size get preferredSize => Size.fromHeight(AppSizes.hAppBar);
 
   @override
   State<AnimatedAppBar> createState() => _AnimatedAppBarState();
@@ -24,20 +25,31 @@ class AnimatedAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _AnimatedAppBarState extends State<AnimatedAppBar> {
   double _opacity = 0.0;
+  bool _isControllerAttached = false;
 
   @override
   void initState() {
     super.initState();
-    widget.scrollController.addListener(_onScroll);
+    _attachScrollListener();
+  }
+
+  void _attachScrollListener() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_isControllerAttached) {
+        widget.scrollController.addListener(_onScroll);
+        _isControllerAttached = true;
+      }
+    });
   }
 
   void _onScroll() {
-    final newOpacity = (widget.scrollController.offset / 100).clamp(0.0, 1.0);
-
-    if (_opacity != newOpacity) {
-      setState(() {
-        _opacity = newOpacity;
-      });
+    if (widget.scrollController.hasClients) {
+      final newOpacity = (widget.scrollController.offset / 100).clamp(0.0, 1.0);
+      if (_opacity != newOpacity) {
+        setState(() {
+          _opacity = newOpacity;
+        });
+      }
     }
   }
 
@@ -45,31 +57,31 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.background.withOpacity(_opacity),
-      elevation: _opacity > 0.1 ? SizeConstants.appBarElevation : 0,
+      elevation: _opacity > 0.1 ? 4 : 0,
       title: Row(
         children: [
           const Text(
             AppTexts.appName,
             style: TextStyle(
               color: AppColors.primary,
-              fontSize: 24,
+              fontSize: FontSizes.headlineSmall,
               fontWeight: FontWeight.bold,
             ),
           ),
           const Spacer(),
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.bookmark,
               color: AppColors.textPrimary,
-              size: SizeConstants.iconSizeM,
+              size: AppSizes.s20,
             ),
             onPressed: widget.onBookmarkPressed,
           ),
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.search,
               color: AppColors.textPrimary,
-              size: SizeConstants.iconSizeM,
+              size: AppSizes.s20,
             ),
             onPressed: widget.onSearchPressed,
           ),
@@ -80,7 +92,9 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
 
   @override
   void dispose() {
-    widget.scrollController.removeListener(_onScroll);
+    if (_isControllerAttached) {
+      widget.scrollController.removeListener(_onScroll);
+    }
     super.dispose();
   }
 }

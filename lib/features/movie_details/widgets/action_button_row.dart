@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieapp/core/constants/app_colors.dart';
+import 'package:movieapp/core/constants/font_size_constants.dart';
 import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
 
@@ -11,6 +12,7 @@ class ActionButtonsRow extends StatelessWidget {
   final VoidCallback onMyListPressed;
   final VoidCallback onBookmarkPressed;
   final VoidCallback onDownloadPressed;
+  final VoidCallback onPressedShare;
 
   const ActionButtonsRow({
     super.key,
@@ -21,6 +23,7 @@ class ActionButtonsRow extends StatelessWidget {
     required this.onMyListPressed,
     required this.onBookmarkPressed,
     required this.onDownloadPressed,
+    required this.onPressedShare,
   });
 
   @override
@@ -47,9 +50,9 @@ class ActionButtonsRow extends StatelessWidget {
           onTap: onBookmarkPressed,
         ),
         _buildActionButton(
-          icon: Icons.download_for_offline_outlined,
-          label: AppTexts.download,
-          onTap: onDownloadPressed,
+          icon: Icons.share,
+          label: AppTexts.share,
+          onTap: onPressedShare,
         ),
       ],
     );
@@ -68,9 +71,9 @@ class ActionButtonsRow extends StatelessWidget {
         scale: active ? 1.08 : 1.0,
         curve: Curves.easeOut,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: SizeConstants.spaceXL,
-            vertical: SizeConstants.spaceXXS,
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSizes.s20,
+            vertical: AppSizes.s2,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -78,15 +81,15 @@ class ActionButtonsRow extends StatelessWidget {
               Icon(
                 icon,
                 color: active ? AppColors.primary : AppColors.textPrimary,
-                size: SizeConstants.iconSizeL,
+                size: AppSizes.s24,
               ),
-              const SizedBox(height: SizeConstants.spaceXS),
+              SizedBox(height: AppSizes.s4),
               Text(
                 label,
                 style: TextStyle(
                   color: active ? AppColors.primary : AppColors.textSecondary,
                   fontWeight: FontWeight.w500,
-                  fontSize: 12,
+                  fontSize: FontSizes.labelSmall,
                   letterSpacing: 0.2,
                 ),
               ),
