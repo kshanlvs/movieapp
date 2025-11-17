@@ -64,6 +64,7 @@ class TextStyles {
     fontWeight: FontWeight.w600,
   );
 }
+
 extension TextStylesExtension on BuildContext {
   TextStyles get textStyles => TextStyles();
 }

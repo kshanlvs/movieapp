@@ -20,10 +20,6 @@ import 'package:movieapp/features/movie_details/widgets/movie_detail_body.dart';
 import 'package:movieapp/features/movie_details/widgets/movie_detail_skeletor.dart';
 import 'package:movieapp/features/movie_details/widgets/share_dialog.dart';
 
-
-
-
-
 class MovieDetailPage extends StatefulWidget {
   final int movieId;
 
@@ -60,11 +56,11 @@ class _MovieDetailPageState extends State<MovieDetailPage>
 
   void _loadData() {
     context.read<MovieDetailBloc>().add(
-          LoadMovieDetail(movieId: widget.movieId),
-        );
+      LoadMovieDetail(movieId: widget.movieId),
+    );
     context.read<BookmarkBloc>().add(
-          CheckBookmarkStatus(movieId: widget.movieId),
-        );
+      CheckBookmarkStatus(movieId: widget.movieId),
+    );
   }
 
   @override
@@ -102,9 +98,9 @@ class _MovieDetailPageState extends State<MovieDetailPage>
       await Clipboard.setData(ClipboardData(text: text));
       _showShareSuccess();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to copy link')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Failed to copy link')));
     }
   }
 
@@ -204,7 +200,7 @@ class _MovieDetailPageState extends State<MovieDetailPage>
                         OutlinedButton(
                           onPressed: _loadData,
                           child: const Text('Retry'),
-                        )
+                        ),
                       ],
                     ),
                   ),

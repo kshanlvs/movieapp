@@ -4,7 +4,6 @@ import 'package:movieapp/features/movie_details/presentation/state/movie_interac
 import 'package:movieapp/features/movie_details/widgets/action_button_row.dart';
 import 'package:movieapp/features/movie_details/widgets/value_listeneable_builder_3.dart';
 
-
 class ActionButtonsRowView extends StatelessWidget {
   final MovieDetails details;
   final MovieInteractionState uiState;

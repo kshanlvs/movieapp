@@ -21,7 +21,6 @@ import 'package:movieapp/features/trending_movies/presentation/bloc/trending_mov
 
 class MovieServiceLocator {
   static Future<void> init() async {
- 
     sl.registerLazySingleton<MovieCacheRepository>(
       () => MovieCacheRepositoryImpl(),
     );

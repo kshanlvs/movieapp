@@ -6,7 +6,6 @@ import 'package:movieapp/features/movie_details/widgets/action_button_row_view.d
 import 'package:movieapp/features/movie_details/widgets/movie_context_section_view.dart';
 import 'package:movieapp/features/movie_details/widgets/movie_hero_section.dart';
 
-
 class MovieDetailBody extends StatelessWidget {
   final MovieDetails details;
   final Animation<double> fadeAnimation;

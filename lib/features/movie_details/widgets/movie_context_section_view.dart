@@ -3,7 +3,6 @@ import 'package:movieapp/features/movie_details/data/model/movie_detail_model.da
 import 'package:movieapp/features/movie_details/presentation/state/movie_interaction_state.dart';
 import 'package:movieapp/features/movie_details/widgets/movie_content_section.dart';
 
-
 class MovieContentSectionView extends StatelessWidget {
   final MovieDetails details;
   final MovieInteractionState uiState;

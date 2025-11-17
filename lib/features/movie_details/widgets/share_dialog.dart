@@ -6,8 +6,11 @@ import 'package:movieapp/core/constants/size_constants.dart';
 import 'package:movieapp/core/constants/text_style_constants.dart';
 import 'package:movieapp/core/constants/string_constants.dart';
 
-void showShareDialog(BuildContext context, String message, 
-VoidCallback onCopy) {
+void showShareDialog(
+  BuildContext context,
+  String message,
+  VoidCallback onCopy,
+) {
   showDialog(
     context: context,
     builder: (_) => Dialog(
@@ -29,7 +32,10 @@ VoidCallback onCopy) {
                     color: AppColors.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(AppRadius.r12),
                   ),
-                  child: const Icon(Icons.share_rounded, color: AppColors.primary),
+                  child: const Icon(
+                    Icons.share_rounded,
+                    color: AppColors.primary,
+                  ),
                 ),
                 SizedBox(width: AppSizes.s12),
                 const Expanded(
@@ -46,8 +52,10 @@ VoidCallback onCopy) {
             ),
 
             SizedBox(height: AppSizes.s20),
-            const Text('Copy the link below to share this movie:',
-                style: TextStyles.movieItemOverview),
+            const Text(
+              'Copy the link below to share this movie:',
+              style: TextStyles.movieItemOverview,
+            ),
             SizedBox(height: AppSizes.s16),
 
             Container(
@@ -55,9 +63,7 @@ VoidCallback onCopy) {
               decoration: BoxDecoration(
                 color: AppColors.surfaceVariant,
                 borderRadius: BorderRadius.circular(AppRadius.r12),
-                border: Border.all(
-                  color: AppColors.outline.withOpacity(0.5),
-                ),
+                border: Border.all(color: AppColors.outline.withOpacity(0.5)),
               ),
               child: Row(
                 children: [
@@ -78,8 +84,10 @@ VoidCallback onCopy) {
                         color: AppColors.primary,
                         borderRadius: BorderRadius.circular(AppRadius.r8),
                       ),
-                      child: const Icon(Icons.copy_rounded,
-                          color: AppColors.textPrimary),
+                      child: const Icon(
+                        Icons.copy_rounded,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                   ),
                 ],
